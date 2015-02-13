@@ -7,4 +7,9 @@ if (mysqli_connect_errno()) {  echo "-> Failed to connect to MySQL: " . mysqli_c
 // подключение к базе mysql
 
 
+//настройка часового пояса
+date_default_timezone_set('Etc/GMT');
+$result= mysqli_query($con, "SELECT * FROM data WHERE id='4'");$row=mysqli_fetch_array($result);if($row){$timezone = $row['state'];}
+//настройка часового пояса
+
 ?>

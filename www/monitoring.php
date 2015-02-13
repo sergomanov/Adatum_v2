@@ -1,96 +1,31 @@
 <?php	
-include 's-head.php';
-include 'adatum.class.php';
+ include 's-head.php';
+ include 'adatum.class.php';
+ ?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<?php	 include 'head.php'; ?>
+	</head>
+	
+	<body class="white">
 
-?>
-<script src="js/dom-bootstrap3.js"></script>
-<style type="text/css">.Mscroll{height: 100%;overflow: auto;}</style>
-<script src="js/jquery.nicescroll.min.js"></script>
-<script>  $(document).ready(function() {$(".Mscroll").niceScroll({cursorborder:"",cursorcolor:"rgb(162, 162, 184)",boxzoom:false});   });</script>
+	   <div  class="s2-content" style="padding-top: 70px;">
+
+				<?php	 include 'topmenu.php'; ?>
+				<?php	 include 'smenu.php'; ?>	
+
+							
+							
+				<div class="s2-map map" id="map">
+
 
 
 
 <div class="right-area -js-right-area Mscroll" style="display: block; overflow: hidden; padding: 0px;  outline: none;" tabindex="0">
                 
             <div class="jspContainer" style=""><div class="jspPane" style="padding: 0px; top: 0px;"><div class="right-area-content -js-right-area-content">
-<style>
-div.progress {
-overflow: hidden;
 
-top: 118px;
-left: 1px;
-width: 100px;
-height: 19px;
-border: 1px solid #C0C0C0;
-background: #E5F8FF;
-margin: 0;
-padding: 0;
-border-radius: 0px;
-}
-div.progress_load {
-height: 17px;
-border: 1px solid #FFFFFF;
-background: #B3CACD;
-margin: 0;
-padding: 0;
-z-index: 999;
-}
-			
-  
-        
-        .mobile #settings {
-            margin: -10px;
-        }
-        
-        #settings section {
-            margin-bottom: 35px;
-        }
-        
-        #settings section .control-row {
-            display: table-row;
-        }
-                
-        #settings section .control-row > div {
-            display: table-cell;
-            border-bottom: 10px solid transparent;
-        }
-        
-        #settings section .control-row > div:not(:last-child) {
-            border-right: 10px solid transparent;
-        }
-        #settings section .title {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: #00aeef;
-        }
-        #settings section .on-off-switch-title {
-            vertical-align: middle;
-            font-size: 16px;
-        }
-        #settings-auth ul li {
-            list-style: none;
-            margin: 5px 0;
-            font-size: 14px;
-        }
-        #settings-auth ul input[type="radio"] {
-            margin-left: 0;
-            position: relative;
-            top: 1px;
-        }
-        
-        #settings .on-off-switch-inner:before,
-        #settings .on-off-switch-inner:after {
-            padding-top: 4px;
-        }
-        #settings .on-off-switch-inner:before {
-            content: "ВКЛ";
-            padding-left: 5px;
-        }
-        #settings .on-off-switch-inner:after {
-            content: "ВЫКЛ";
-            padding-right: 5px;
-        }
-    </style>
     <div id="settings">
         <header>
             <!-- Кнопка "назад в меню" для мобильных устройств -->
@@ -169,7 +104,7 @@ echo "Включено $days дней $hours часов $mins минут и $sec
                  </div>
             </div>
 		
-			     <table id="example" class="table table-striped table-bordered" cellspacing="0">
+			     <table id="example" class=" table table-striped table-bordered" cellspacing="0">
                                         <thead>
                                             <tr>
                                              
@@ -204,7 +139,9 @@ if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
 <?php  }}	?>									
 											
 		  </tbody>
-                                    </table>									
+                                    </table>	
+
+									
 											
 											
 		
@@ -217,4 +154,13 @@ if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
            
             <!-- ^ Переключатель уведомлений контроля канала связи -->
         </section>
+		
     </div></div></div></div></div>
+	
+				</div>
+				
+		</div>
+
+
+	</body>
+</html>
