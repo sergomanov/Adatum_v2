@@ -270,6 +270,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id_user`, `login_user`, `passwd_user`, `mail_user`, `key_user`, `timezone`, `img`, `calendar`) VALUES
 (0, 'Система', '', '', '', 0, '', 0),
 (1, 'admin', '53a2e0f8485a1da00509e3cc6bf40e0b', 'sergomanov@mail.ru', 'yA4gAjQ4xC', 0, '/feditor/attached/image/20150313/20150313102144_79301.jpg', 0),
-(2, 'demo', '53a2e0f8485a1da00509e3cc6bf40e0b', 'demo@demo.ru', 'yA4gAjQ4xC', 25200, '/feditor/attached/image/20150313/20150313102144_79301.jpg	', 1),
+(2, 'demo', '53a2e0f8485a1da00509e3cc6bf40e0b', 'demo@demo.ru', 'yA4gAjQ4xC', 25200, '/feditor/attached/image/20150313/20150313102144_79301.jpg	', 1);
 
 

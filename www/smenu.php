@@ -1,10 +1,7 @@
 <div class="left-area Mscroll" style="border-right: 1px solid #CDCDCD;overflow: scroll;" id="pole">
 
-
-
-
 <ul id="men" class="s2-menu -js-device-menu  main-menu -js-main-menu"  style="display: block;  padding-left: 5px;">
-	
+
 	
 		
 <li class="<?php if(basename($_SERVER['PHP_SELF'])=='setting.php'){echo "active";}?>" style="padding: 12px;padding-top: 19px;">
@@ -133,7 +130,7 @@ if($S_unixtime==0||($S_unixtime!=0&&$timereal-$S_unixtime>600)){$onlin=0;} else 
 			<span style="font-size: 12px;">
 				<?php	
 				if($timereal-$S_unixtime<600){ echo "устройство в сети";}
-				if($S_unixtime!=0&&$timereal-$S_unixtime>600) {echo "нет связи с ". date("d.m.Y, H:m", $S_unixtime);}
+				if($S_unixtime!=0&&$timereal-$S_unixtime>600) {echo "нет связи с ". date("d.m.Y, H:m", $S_unixtime+$timezone);}
 				if($S_unixtime==0){ echo "недоступно в сети";}
 				//	echo 	$timereal-$S_unixtime;
 				//if($timereal-$S_unixtime>360){ echo "Устройство в сети.";} 
@@ -162,15 +159,18 @@ $Mcommands="#".$rowe6['address']."#".$rowe6['mode']."#".$rowe6['vale']."##";
 //echo $Mcommands;
 ?>	
 	
-<div onclick="hidediver();$.ajax({type: 'POST',url: 's-respfast.php',data: 'value=<?php	echo $Mcommands; ?>'});"
+	
+<div <?php if($onlin!=0) {?>onclick="hidediver();$.ajax({type: 'POST',url: 's-respfast.php',data: 'value=<?php	echo $Mcommands; ?>'});"<?php } ?>
 title="<?php	echo $rowe6['name']; ?>" class="add-command s2-control-button s2-control-left2" style="background: #EBEBEB;
-text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;
-border-bottom: 2px solid white;padding-top: 3px">		
+text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bottom: 2px solid white;padding-top: 3px">		
 
+<?php if($onlin==0) {echo "<i class='icon-block-3' style='  font-size: 23px;  position: absolute;   color: #7B4F4F;'></i>";} ?>
 
-<i class="<?php	echo $ico5; ?>" style="  font-size: 22px;padding: 0px;color:<?php	echo $color5; ?>"></i>
+<i class="<?php	echo $ico5; ?>" style="  font-size: 22px;padding: 0px;color:<?php if($onlin!=0) {echo $color5;} else {echo "#ccc";}?>"></i>
+
 	<br><div style="    font-size: 10px;"><?php	echo $rowe6['name']; ?>	</div>								
 </div>	
+
 
 							
 <?php } ?>  	
@@ -180,54 +180,155 @@ border-bottom: 2px solid white;padding-top: 3px">
 <div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>		
 	
 
+	
+	
+	
+	
 			<?php 
+		
 				   $resulte4 = mysqli_query($con,"SELECT * FROM developments WHERE address='$address' GROUP BY `mode`");	
 				   while($rowe4 = mysqli_fetch_assoc($resulte4)) {
 				   $mode4=$rowe4['mode'];
+				   
+				   if ($result=mysqli_query($con,"SELECT * FROM developments WHERE mode='$mode4' AND address='$address'"))  {  $rowcount=mysqli_num_rows($result);  }
+				   
+					if($rowcount>10){
+				   
+				   
 				   $resulte5 = mysqli_query($con,"SELECT * FROM type WHERE mode='$mode4'");	
 				   while($rowe5 = mysqli_fetch_assoc($resulte5)) { $ico5=$rowe5['ico']; $color5=$rowe5['color']; $symbol5=$rowe5['symbol']; $type5=$rowe5['type'];$namevalue1_5=$rowe5['namevalue1'];}
 				   if($type5==1){
+			
 			?> 
 				
 			
 	
-<div title="<?php	echo $namevalue1_5; ?>" onclick="chartG<?php	echo $rowe['id']; ?>();" 
- class="add-command s2-control-button s2-control-left2" style="background: #fff;
-text-align: center;border-left: 2px solid white;
+<div title="<?php	echo $namevalue1_5; ?>" onclick="chartG<?php	echo $rowe4['id']; ?>();" 
+ class="add-command s2-control-button s2-control-left2" style="background: rgba(239, 207, 109, 0.79);text-align: center;border-left: 2px solid white;height: 60px;
 border-bottom: 2px solid white;width: 25%;margin: 0px;padding-top: 3px">		
 
-
+<?php if($onlin==0) {echo "<i class='icon-block-3' style='  font-size: 23px;  position: absolute;   color: #7B4F4F;'></i>";} ?>
 <i class="<?php	echo $ico5; ?>" style="  font-size: 22px;padding: 0px;color:<?php	echo $color5; ?>"></i>
 	<br><div style="    font-size: 10px;"><?php	echo $rowe4['vale']; ?>	<?php	echo $symbol5; ?></div>								
 </div>	
 
+
 	
-			<?php 			   }	}			?>  							
-									
-	
-
-
-
-
-
-<div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>						
-								
-
-
-
-
-	<div id="placeholder<?php	echo $rowe['id']; ?>" style="width:100%;height:0px;padding: 10px;"></div>
-
 <script>
-function chartG<?php	echo $rowe['id']; ?>(){
-	document.getElementById('placeholder<?php	echo $rowe['id']; ?>').style.height="180px";
- var options = {grid:   {borderWidth:1,borderColor:"#EBEBEB",}	};
- var d2 = [[0, 3], [4, 8], [8, 5], [9, 13], [14, 8], [18, 5],[24, 8], [28, 5], [34, 8], [38, 5],];
+function chartG<?php	echo $rowe4['id']; ?>(){
+ document.getElementById("const<?php	echo $rowe['id']; ?>").style.display="block";
+ document.getElementById('placeholder<?php	echo $rowe['id']; ?>').style.height="180px";
+ var options = {xaxis: { mode: "time", timezone: "browser"},grid:   {borderWidth:1,borderColor:"#EBEBEB",}	};
+ var d2 = [
+<?php
+$per=0;
+$datetimein=time()-864000;
+$datetimeout=time();
+	
+$res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
+if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
+	$utime7=$row9['unixtime'];
+	$vale79=$row9['vale'];
+	if($per==0){$per=$vale79;} else {$per=$per*0.9+$vale79*0.1;}
+	$utime7=$utime7."000";
+	echo "[".$utime7.",".$per."],";
+}}
+
+?>
+];
+
  $.plot($("#placeholder<?php	echo $rowe['id']; ?>"), [  d2 ],options);
  window.onresize = function(event) { $.plot($("#placeholder<?php	echo $rowe['id']; ?>"), [ d2 ],options);  }
  
+ 
+<?php
+//-------------------------------- за неделю ---------------------------------
+$datetimein=time()-604800;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$zna_sr=round($a['vale'], 1);
+
+$datetimein=time()-604800;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$zna_min=round($a['vale'], 1);
+
+$datetimein=time()-604800;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$zna_max=round($a['vale'], 1);
+//-------------------------------- за неделю ---------------------------------
+
+//-------------------------------- за месяц ---------------------------------
+$datetimein=time()-2592000;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znam_sr=round($a['vale'], 1);
+
+$datetimein=time()-2592000;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znam_min=round($a['vale'], 1);
+
+$datetimein=time()-2592000;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znam_max=round($a['vale'], 1);
+//-------------------------------- за месяц ---------------------------------
+
+//-------------------------------- за год ---------------------------------
+$datetimein=time()-31536000;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znag_sr=round($a['vale'], 1);
+
+$datetimein=time()-31536000;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znag_min=round($a['vale'], 1);
+
+$datetimein=time()-31536000;
+$datetimeout=time();
+$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znag_max=round($a['vale'], 1);
+//-------------------------------- за год ---------------------------------
+?>
+
+
+ document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $zna_sr; ?></scol>/<gcol><?php	echo $zna_min; ?></gcol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
+ 
+ document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <scol>сред </scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $znam_sr; ?></scol>/<gcol><?php	echo $znam_min; ?></gcol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
+ 
+ document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $znag_sr; ?></scol>/<gcol><?php	echo $znag_min; ?></gcol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
+ 
  };
 </script>	
+
+		
+				   <?php }}} ?>  							
+	
+
+
+	
+
+	
+<div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>
+
+<div id="const<?php	echo $rowe['id']; ?>" style="display:none;">
+<div id="nedel<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за неделю:</div>
+<div id="mes<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за месяц:</div>
+<div id="god<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за год:</div>
+<div style="font-size: 12px; color: #4B4CAE;">Показан график за последние 10 дней.</div>
+</div>
+
+
+
+		
+	
+			
+<div id="placeholder<?php	echo $rowe['id']; ?>" style="width:100%;height:0px;padding: 10px;"></div>
+
+
 </div>	
 
 </div>
