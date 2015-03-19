@@ -1,3 +1,37 @@
+.invos{
+		display: block;
+		margin: 10px 0 0 0px;
+width: 108px;
+	}
+	
+	.inreg{
+		display: block;
+		margin: 10px 0 0 0px;
+		
+width: 100px;
+	}
+
+::-webkit-scrollbar{
+    width:5px;
+}
+::-webkit-scrollbar-thumb{
+    border-width:1px 1px 1px 2px;
+    border-color: #777;
+    background-color: #aaa;
+}
+::-webkit-scrollbar-thumb:hover{
+    border-width: 1px 1px 1px 2px;
+    border-color: #555;
+    background-color: #777;
+}
+::-webkit-scrollbar-track{
+    border-width:0;
+}
+
+::-webkit-scrollbar-track:hover{
+    border-left: solid 1px #aaa;
+    background-color: #eee;
+}
 @font-face
 {
 	font-family: 'Cleanvertising';
@@ -169,6 +203,8 @@ img
 }
 #top .form .form-input
 {
+color: #F4F4F4;
+font-size: 12px;
 	padding: 5px 0;
 }
 @media screen and (max-width:760px)
@@ -450,11 +486,11 @@ img
 	}
 	#top .form .form-input-login input
 	{
-		width: 190px;
+		width: 225px;
 	}
 	#top .form .form-input-pass input
 	{
-		width: 190px;
+		width: 225px;
 	}
 	#top .form .form-input-pass>div
 	{
@@ -463,8 +499,20 @@ img
 	#top .form .form-input-pass input[type="submit"]
 	{
 		display: block;
-		margin: 40px 0 0 36px;
-		width: 207px;
+		margin: 40px 0 0 0px;
+width: 242px;
+	}
+	
+	.invos{
+		display: block;
+		margin: 10px 0 0 0px;
+width: 228px;
+	}
+	
+	.inreg{
+		display: block;
+		margin: 10px 0 0 0px;
+width: 228px;
 	}
 	#top .form .form-input-captcha>div.captchaInput input
 	{
@@ -729,3 +777,5 @@ img
 {
 	min-height: 280px;
 }
+
+	
