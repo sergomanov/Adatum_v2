@@ -1,6 +1,7 @@
 <?php	
 include_once 'conf.php';
 $auth = new auth();
+if ($auth->check()) {header("Location: main.php");} 
 $r='';
  ?>
 <!DOCTYPE html>

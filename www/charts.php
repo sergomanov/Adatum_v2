@@ -1,37 +1,22 @@
 <?php	
  include 's-head.php';
- include 'adatum.class.php';
- date_default_timezone_set('UTC');
- 
-  
+ include 'adatum.class.php'; 
  ?>
- 	
-	
+
 <!DOCTYPE html>
 <html>
-	<head>
-		<?php	 include 'head.php'; ?>
-	</head>
-	
+	<head>	<?php	 include 'head.php'; ?>	</head>
 	<body class="white">
-
 	   <div  class="s2-content" id="paddi" style="padding-top: 70px;">
 
 				<?php	 include 'topmenu.php'; ?>
 				<?php	 include 'smenu.php'; ?>	
 
-							
-	
-
-			
-<div class="s2-map " id="map">
-
+<div class="s2-map ">
 	
 
 <div class="right-area5 -js-right-area Mscroll" style="display: block;  padding: 0px;  outline: none;" tabindex="0">
-                
-            <div class="jspContainer" >
-			
+		
 			<div class="jspPane" style="padding: 0px; top: 0px;">
 			<div class="right-area-content -js-right-area-content">
 
@@ -57,11 +42,8 @@
 							
 							 <div class="row-fluid" >
 							
-								
-								
+					
 
-								
-<div>	
 			
 <p>Датчик</p>
 <select id="mode" class="form-control" name="mode"> 
@@ -112,7 +94,7 @@
 <br><br>
 
 <button type="submit" class="btn btn-sm btn-small btn-primary"><i class="icon-brush"></i> Отрисовать</button>
- </div>		
+	
 				
 							 </div>							
 							</div>
@@ -121,30 +103,16 @@
 					</div>
 				</div>
 	
-	
-	
-    <div class="mainInfo form-horizontal col-md-9" autocomplete="off">
-      
-       
 
-							 
-	 
-      
-		        <section id="settings-notifications">
-				
-				
-			   
+	
+<div class="mainInfo form-horizontal col-md-9">
+	        <section id="settings-notifications">
 			   <div class="grid simple" >
 							<div class="grid-body no-border email-body" >
 							<br>
 							 <div class="row-fluid" >
 							 <div class="row-fluid dataTables_wrapper">
-
-								<div class="pull-right margin-top-20">
-									
-								
-									
-									</div>
+								<div class="pull-right margin-top-20"></div>
 									<div class="clearfix"></div>
 								</div>
 								
@@ -161,8 +129,10 @@
 		if(isset($_GET['address'])) {	$address=$_GET['address']; }
 		
 		
-	$datetimein=strtotime($_GET['datein'].$_GET['timein']);
-	$datetimeout=strtotime($_GET['dateout'].$_GET['timeout']);
+	$datetimein=strtotime($_GET['datein'].$_GET['timein'])-$timezone;
+	$datetimeout=strtotime($_GET['dateout'].$_GET['timeout'])-$timezone;
+	
+
 		
 	//	echo $timereal."<br>";
 	//	echo $datetimein."<br>";
@@ -183,7 +153,7 @@ i = "0"+i;
 return i;
 }
 	
-	
+
 	 
 $.fn.UseTooltip = function () {
     var previousPoint = null;
@@ -198,7 +168,8 @@ $.fn.UseTooltip = function () {
                 var x = item.datapoint[0];
                 var y = item.datapoint[1];     
 				
-var a = new Date(x-<?php echo $timezone*1000;?>);		
+//var a = new Date(x);		
+var a = new Date(x);
 
 var day=a.getDate();
 var month=a.getMonth() + 1;
@@ -258,37 +229,16 @@ function showTooltip(x, y, contents) {
 	
 
 
-		?>	
-	
-	
-	
-	
-	
-	
-
-		var d<?php echo $rowchart['id'];?> = [
-
-		
-				   <?php
+?>		var d<?php echo $rowchart['id'];?> = [	   <?php
 $per=0;
 
 $res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
 if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
-
-
-$utime7=$row9['unixtime'];
-
-
-
-$vale79=$row9['vale'];
-
-if($per==0){$per=$vale79;}
-else {$per=$per*0.9+$vale79*0.1;}
-
-
-$utime7=$utime7."000";
-echo "[".$utime7.",".$per."],";
-
+	$utime7=$row9['unixtime'];
+	$vale79=$row9['vale'];
+	if($per==0){$per=$vale79;} else {$per=$per*0.9+$vale79*0.1;}
+	$utime7=$utime7."000";
+	echo "[".$utime7.",".$per."],";
 }}
 ?>	
 		];
@@ -297,28 +247,13 @@ echo "[".$utime7.",".$per."],";
 
 
 
-		function weekendAreas(axes) {
-
-			var markings = [],
-			d = new Date(axes.xaxis.min);
-			d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7))
-			d.setUTCSeconds(0);
-			d.setUTCMinutes(0);
-			d.setUTCHours(0);
-
-			var i = d.getTime();
-			do {
-				markings.push({ xaxis: { from: i, to: i + 2 * 24 *  60 * 1000 } });
-				i += 7 * 24 * 60 * 60 *  1000;
-			} while (i < axes.xaxis.max);
-
-			return markings;
-		}
+		
 
 		 var options = {
 			<?php if($typecharts==1) {	echo "points: { show: true ,radius: 4 },	bars: {show: true, align: 'center', barWidth: 0.2},"; } ?>
 			xaxis: {
-				mode: "time",			
+				mode: "time",	
+				timezone: "browser"
 			},
 			legend: {
 			backgroundOpacity: 0.1,
@@ -328,7 +263,7 @@ echo "[".$utime7.",".$per."],";
 			yaxis: {
 			},
 			grid:   {
-			markings: weekendAreas, 
+			
 			backgroundColor: { colors: [ "#fff", "#fff" ] },
 			borderWidth:1,
 			borderColor:"#f0f0f0",
@@ -349,39 +284,18 @@ echo "[".$utime7.",".$per."],";
 	
 	</script>
 
-
-
-
-
-				
-			
-           <div id="placeholders" style="width: 100%;	height: 450px;"></div>
-
-			
-
-
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-								
-						
-							 </div>							
-							</div>
-							</div>	
-
-			
-        </section>
 	
-    </div>
+			
+<div id="placeholders" style="width: 100%;	height: 450px;"></div>
+				
+</div>							
+</div>
+</div>	
+
+			
+</section>
+	
+ </div>
   
 	
 </div>
@@ -390,7 +304,7 @@ echo "[".$utime7.",".$per."],";
 
 </div>
 </div>
-</div>
+
 </div>
 				</div>
 				

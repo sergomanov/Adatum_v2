@@ -3,6 +3,9 @@
 $r='';
 $auth = new auth();
 
+if ($auth->check()) {header("Location: main.php");} 
+
+
 //~ authorization
 if (isset($_POST['send'])) {
 	if (!$auth->authorization()) {

@@ -8,7 +8,7 @@ if (mysqli_connect_errno()) {  echo "-> Failed to connect to MySQL: " . mysqli_c
 
 include_once 'conf.php';
 $auth = new auth();
-if ($auth->check()) {	$login_user = $_SESSION['login_user'];$G_id_user = $_SESSION['id_user'];} else {$login_user = NULL;$G_id_user = NULL;}
+if ($auth->check()) {	$login_user = $_SESSION['login_user'];$G_id_user = $_SESSION['id_user'];} else {$login_user = NULL;$G_id_user = NULL;header("Location: index.php");}
 
 //настройка часового пояса
 date_default_timezone_set('UTC');
