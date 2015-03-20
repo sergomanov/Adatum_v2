@@ -52,10 +52,10 @@ if($rowcount>2000){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;�
                                             <tr>
                                              	<th data-class="expand" style="width: 40px;"></th>
 												<th data-class="expand">Тип</th>
-                                                <th data-hide="tablet">MAC устройства</th>
-												<th data-hide="phone">Значение</th>
+                                                <th data-hide="phone,tablet">MAC устройства</th>
+												<th data-hide="phone,tablet">Значение</th>
 										
-                                                <th data-hide="phone,tablet">Дата</th>
+                                                <th data-class="expand">Дата</th>
                                                
                                             </tr>
                                         </thead>
@@ -85,7 +85,7 @@ if($rowcount>2000){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;�
 
 					<td><?php	echo $mIDDN['vale']; ?></td>
 
-					<td class="v-align-middle"><span class="muted"><?php	echo date("Y-m-d H:i:s", $mIDDN['unixtime']+$timezone);      ?></span></td>
+					<td class="v-align-middle"><span class="muted"><?php	echo date("Y-m-d H:i", $mIDDN['unixtime']+$timezone);      ?></span></td>
 			</tr>
 											
 			<?php  }}	?>													

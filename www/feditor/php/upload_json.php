@@ -32,29 +32,29 @@ $save_path = realpath($save_path) . '/';
 if (!empty($_FILES['imgFile']['error'])) {
 	switch($_FILES['imgFile']['error']){
 		case '1':
-			$error = '超过php.ini允许的大小。';
+			$error = 'За php.ini допустимого размера.';
 			break;
 		case '2':
-			$error = '超过表单允许的大小。';
+			$error = 'Форма позволяет более размера.';
 			break;
 		case '3':
-			$error = '图片只有部分被上传。';
+			$error = 'Фото было загружено лишь частично.';
 			break;
 		case '4':
-			$error = '请选择图片。';
+			$error = 'Пожалуйста, выберите изображение.';
 			break;
 		case '6':
-			$error = '找不到临时目录。';
+			$error = 'Не можете найти временный каталог.';
 			break;
 		case '7':
-			$error = '写文件到硬盘出错。';
+			$error = 'Написать файлов в случае отказа жесткого диска.';
 			break;
 		case '8':
 			$error = 'File upload stopped by extension。';
 			break;
 		case '999':
 		default:
-			$error = '未知错误。';
+			$error = 'Неизвестная ошибка.';
 	}
 	alert($error);
 }
@@ -69,28 +69,28 @@ if (empty($_FILES) === false) {
 	$file_size = $_FILES['imgFile']['size'];
 	//检查文件名
 	if (!$file_name) {
-		alert("请选择文件。");
+		alert("Пожалуйста, выберите файл.");
 	}
 	//检查目录
 	if (@is_dir($save_path) === false) {
-		alert("上传目录不存在。");
+		alert("Загрузить каталог не существует.");
 	}
 	//检查目录写权限
 	if (@is_writable($save_path) === false) {
-		alert("上传目录没有写权限。");
+		alert("Загрузить каталог не доступен для записи.");
 	}
 	//检查是否已上传
 	if (@is_uploaded_file($tmp_name) === false) {
-		alert("上传失败。");
+		alert("Сбой при загрузке.");
 	}
 	//检查文件大小
 	if ($file_size > $max_size) {
-		alert("上传文件大小超过限制。");
+		alert("Размер загружаемого файла не должен превышать 1 Мб.");
 	}
 	//检查目录名
 	$dir_name = empty($_GET['dir']) ? 'image' : trim($_GET['dir']);
 	if (empty($ext_arr[$dir_name])) {
-		alert("目录名不正确。");
+		alert("Имя каталога неверен.");
 	}
 	//获得文件扩展名
 	$temp_arr = explode(".", $file_name);
@@ -99,7 +99,7 @@ if (empty($_FILES) === false) {
 	$file_ext = strtolower($file_ext);
 	//检查扩展名
 	if (in_array($file_ext, $ext_arr[$dir_name]) === false) {
-		alert("上传文件扩展名是不允许的扩展名。\n只允许" . implode(",", $ext_arr[$dir_name]) . "格式。");
+		alert("Разрешена загрузка только " . implode(",", $ext_arr[$dir_name]));
 	}
 	//创建文件夹
 	if ($dir_name !== '') {
@@ -120,7 +120,7 @@ if (empty($_FILES) === false) {
 	//移动文件
 	$file_path = $save_path . $new_file_name;
 	if (move_uploaded_file($tmp_name, $file_path) === false) {
-		alert("上传文件失败。");
+		alert("Загрузить файл не удалось.");
 	}
 	@chmod($file_path, 0644);
 	$file_url = $save_url . $new_file_name;

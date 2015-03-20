@@ -1,20 +1,20 @@
 <div id="nav">
-	<button class="roundbutton" type="button" style="bottom: 66px;right: 5px;" value="+"><i class="icon-zoom-in-outline" style="font-size: 26px;"></i></button>
-	<button class="roundbutton"  type="button" style="bottom: 12px;right: 5px;" value="-"><i class="icon-zoom-out-outline" style="font-size: 26px;"></i></button>
+	<button class="roundbutton" id="key3" type="button" style="bottom: 70px;right: 5px;" value="+"><i class="icon-zoom-in-outline" style="font-size: 26px;"></i></button>
+	<button class="roundbutton" id="key4" type="button" style="bottom: 12px;right: 5px;" value="-"><i class="icon-zoom-out-outline" style="font-size: 26px;"></i></button>
 </div>
 
-<a class="roundbutton"  href="button.php"  style="bottom: 12px;left: 5px;" value="-"><i class="icon-cog" style="font-size: 26px;"></i></a>
-
+<a class="roundbutton" id="key1"  href="button.php"  style="bottom: 12px;left: 5px;" value="-"><i class="icon-cog" style="font-size: 26px;"></i></a>
+<a class="roundbutton" id="key2" href="ymap.php"  style="bottom: 70px;left: 5px;" value="-"><i class="icon-globe-1" style="font-size: 26px;"></i></a>
 
 <?php 
 if(isset($_GET['edit']))
 {
 ?>
-<a href="main.php" title="Закончить редактирование" onclick="send();" style="background-color: #ffa800!important;" class="s3-hide-panel"><i class="icon-move-2"></i> </a>	
+<a href="main.php" id="key5" title="Закончить редактирование" onclick="send();"  class="s3-hide-panel" style="background-color: #ffa800!important;height: 60px;  padding: 15px 16px 17px;"><i class="icon-move-2"></i> </a>	
 <?php 
 } else {
 ?>	
-<a href="main.php?edit=1" title="Редактировать" class="s3-hide-panel"><i class="icon-move-2"></i> </a>
+<a href="main.php?edit=1" id="key5" title="Редактировать" class="s3-hide-panel" style="background-color: #ffa800!important;height: 60px !important;  padding: 15px 16px 17px !important;"><i class="icon-move-2"></i> </a>
 <?php 
 } 
  ?>
@@ -90,7 +90,80 @@ if(isset($_GET['edit']))
 			while($rowpocaz = mysqli_fetch_assoc($pocaz)) 	{ $cols++; $datcic = $rowpocaz['vale'];}
 			if($cols!=NULL){
 			?> 
-		
+	
+
+
+
+
+
+<?php
+
+$C_mode = $rowr['mode'];
+//-------------------------------- за неделю ---------------------------------
+$datetimein=time()-604800;
+$datetimeout=time();
+$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$C_zna_sr=round($C_a['vale'], 1);
+
+$datetimein=time()-604800;
+$datetimeout=time();
+$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$C_zna_min=round($C_a['vale'], 1);
+
+$datetimein=time()-604800;
+$datetimeout=time();
+$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$C_zna_max=round($C_a['vale'], 1);
+//-------------------------------- за неделю ---------------------------------
+
+//-------------------------------- за месяц ---------------------------------
+$datetimein=time()-2592000;
+$datetimeout=time();
+$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$C_znam_sr=round($C_a['vale'], 1);
+
+$datetimein=time()-2592000;
+$datetimeout=time();
+$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$C_znam_min=round($C_a['vale'], 1);
+
+$datetimein=time()-2592000;
+$datetimeout=time();
+$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$C_znam_max=round($C_a['vale'], 1);
+//-------------------------------- за месяц ---------------------------------
+
+?>	
+
+<script type="text/javascript">
+					$(function() {
+						
+				//	var d = [[0, 3], [4, 8], [8, 5], [9, 13]];
+				//	var options = {grid:   {borderWidth:1,borderColor:"#EBEBEB",}	};	$.plot("#ph<?php	echo $id;?>", [ d ],options);	
+					
+					 var options = {xaxis: { mode: "time", timezone: "browser"},grid:   {borderWidth:1,borderColor:"#EBEBEB",}	};
+ var dd2 = [
+<?php
+$per=0;
+$datetimein=time()-864000;
+$datetimeout=time();
+	
+$res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
+if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
+	$utime7=$row9['unixtime'];
+	$vale79=$row9['vale'];
+	if($per==0){$per=$vale79;} else {$per=$per*0.9+$vale79*0.1;}
+	$utime7=$utime7."000";
+	echo "[".$utime7.",".$per."],";
+}}
+
+?>
+];
+
+ $.plot($("#ph<?php	echo $id;?>"), [  dd2 ],options);
+					
+					});
+</script>
 		
 
 <script type="text/javascript">
@@ -98,9 +171,11 @@ function widdiv<?php	echo $id;?>(){
 if(document.getElementById('chart<?php	echo $id;?>').style.display=="block"){
 document.getElementById('chart<?php	echo $id;?>').style.display="none";
 document.getElementById('ph<?php	echo $id;?>').style.display="none";
+document.getElementById('draa<?php	echo $id;?>').style.zIndex ="1";
 } else {
 document.getElementById('chart<?php	echo $id;?>').style.display="block";
 document.getElementById('ph<?php	echo $id;?>').style.display="block";
+document.getElementById('draa<?php	echo $id;?>').style.zIndex ="9";
 }
 }
 </script>
@@ -111,17 +186,21 @@ document.getElementById('ph<?php	echo $id;?>').style.display="block";
 	
 <div id="chart<?php	echo $id;?>" style="display:none;">
 	
-	<sd style="position: absolute;z-index: 99;margin: 3px 0px 0px 70px;font-size: 10px;width: 140px;">Среднее за неделю:</sd>
-	<sd style="position: absolute;z-index: 99;margin: 16px 0px 0px 70px;font-size: 10px;width: 140px;">Среднее за месяц:</sd>
-	<sd style="position: absolute;z-index: 99;margin: 29px 0px 0px 70px;font-size: 10px;width: 140px;">Среднее за год:</sd>
+	
+	<sd class="polezn" style="margin:  4px 0px 0px 60px;">
+за неделю  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $C_zna_sr; ?></scol>/<gcol><?php	echo $C_zna_min; ?></gcol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?>
+	</sd>
+	
+	<sd class="polezn"  style="margin:  36px 0px 0px 60px;">
+за месяц  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $C_zna_sr; ?></scol>/<gcol><?php	echo $C_zna_min; ?></gcol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?>
+	</sd>
+	
 		
-	<div  style="background: rgba(255, 255, 255, 0.95);border: 1px solid #E7D5D2;width: 240px;height: 155px;margin: -1px;position: absolute;">
-		<script type="text/javascript">
-		$(function() {
-		var d = [[0, 3], [4, 8], [8, 5], [9, 13]];
-		var options = {grid:   {borderWidth:1,borderColor:"#EBEBEB",}	};	$.plot("#ph<?php	echo $id;?>", [ d ],options);	});
-		</script>
-		<div id="ph<?php	echo $id;?>" style="width:234px;height:90px;margin-top: 60px;"></div>
+	<div class="chartsM">
+	
+		
+			
+		<div id="ph<?php	echo $id;?>" style="width:255px;height:90px;margin-top: 60px;"></div>
 	</div>
 
 </div>
@@ -154,7 +233,49 @@ document.getElementById('ph<?php	echo $id;?>').style.display="block";
 			
 </div>	
 </form>
-			
+<script type="text/javascript">
+
+$(function(){
+	
+ if(window.innerWidth<680) {
+document.getElementById("key1").style.display="none";
+document.getElementById("key2").style.display="none";
+document.getElementById("key3").style.display="none";
+document.getElementById("key4").style.display="none";
+document.getElementById("key5").style.display="none";
+  }
+	else
+	{
+	document.getElementById("key1").style.display="block";
+document.getElementById("key2").style.display="block";
+document.getElementById("key3").style.display="block";
+document.getElementById("key4").style.display="block";
+document.getElementById("key5").style.display="block";
+	} 
+
+  });
+
+
+
+function butt_rt(){
+ if(window.innerWidth<680) {	
+	
+if(document.getElementById("key2").style.display=="block"){
+document.getElementById("key1").style.display="none";
+document.getElementById("key2").style.display="none";
+document.getElementById("key3").style.display="none";
+document.getElementById("key4").style.display="none";
+document.getElementById("key5").style.display="none";
+} else {
+	document.getElementById("key1").style.display="block";
+document.getElementById("key2").style.display="block";
+document.getElementById("key3").style.display="block";
+document.getElementById("key4").style.display="block";
+document.getElementById("key5").style.display="block";
+}
+ }
+}
+ </script>			
 <script>
 $(function() {
     $('#nav button').on('click', function() {

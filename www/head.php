@@ -49,6 +49,7 @@ var s = d.getElementsByTagName(t)[0]; s.parentNode.insertBefore(j, s);
 <script language="javascript" type="text/javascript" src="js/jquery.flot.time.js"></script>
 <script language="javascript" type="text/javascript" src="js/jquery.flot.selection.js"></script>
 <script language="javascript" type="text/javascript" src="js/ jquery.flot.resize.js"></script>
+<script language="javascript" type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script src="js/jquery-ui-timepicker-addon.js"></script>
 <script src="js/jquery-ui-timepicker-ru.js"></script>
@@ -221,4 +222,8 @@ jQuery(document).ready(function($) {
 <div id="page-preloader">
 <i class="icon-spin6 animate-spin" style="  color: #fff;  font-size: 60px;   margin: -30px 0 0 -30px; position: absolute;  left: 50%;  top: 50%;"></i>
 </div>
+
+
+
+
 

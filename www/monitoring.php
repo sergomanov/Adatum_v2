@@ -49,7 +49,6 @@ if (isset($_POST['del'])) {
           
 		  <div class="control-row">
                 <div class="on-off-switch-title"><span>Всего</span>
-<i title="Показывает общее место на жестких дисках" style="position: absolute;margin: -3px 0 0 0;font-size: 20px;color: #7CC8EC;" class="icon-help-circled"></i>
 
                 </div>
                 <div>
@@ -59,7 +58,6 @@ if (isset($_POST['del'])) {
 			
 			  <div class="control-row">
                 <div class="on-off-switch-title"><span>Свободно</span>
-<i title="Показывает свободное место на жестких дисках" style="position: absolute;margin: -3px 0 0 0;;font-size: 20px;color: #7CC8EC;" class="icon-help-circled"></i>
 
                 </div>
                 <div>
@@ -70,8 +68,7 @@ if (isset($_POST['del'])) {
 			  <div class="control-row">
                 <div class="on-off-switch-title"><span>Занято</span>
 
-<i title="Показывает занятое место на жестких дисках" style="position: absolute;margin: -3px 0 0 0;;font-size: 20px;color: #7CC8EC;" class="icon-help-circled"></i>
-			
+		
                 </div>
                 <div>
 				<?php echo disktotal(3);  ?>
@@ -126,7 +123,7 @@ echo "Включено $days дней $hours часов $mins минут и $sec
 												<th width: 150px; data-class="expand">Состояние</th>
 											    <th data-hide="phone,tablet">Режим</th>
                                                 <th data-hide="phone,tablet">Комманда</th>
-                                                <th data-hide="phone,tablet">Дата</th>
+                                                <th data-class="expand">Дата</th>
                                                
                                             </tr>
                                         </thead>
@@ -146,7 +143,7 @@ echo "Включено $days дней $hours часов $mins минут и $sec
 			
 			<td><?php	echo $mIDDN['vale']; ?></td>
 			
-			<td class="v-align-middle"><span class="muted"><?php	echo date("Y-m-d H:i:s", $mIDDN['unixtime']+$timezone);      ?></span></td>
+			<td class="v-align-middle"><span class="muted"><?php	echo date("Y-m-d H:i", $mIDDN['unixtime']+$timezone);      ?></span></td>
 													  
 		</tr>
 	<?php  }}	?>																				

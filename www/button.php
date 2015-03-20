@@ -157,12 +157,18 @@ header("Location: button.php");
 	
 
 
-<div id="i_conditions" style="display: none">	
+<div id="i_conditions" style="display: none;">	
 <p>Устройство контроля состояния</p>
+
+
+					  
 	<select id="conditions"  name="conditions" class="select2" style="width:100%">
 	<option value=""></option> 
-	<?php $resultel = mysqli_query($con,"SELECT * FROM commands WHERE mode='KEY' AND id_user = '$G_id_user'"); while($rowl = mysqli_fetch_assoc($resultel)) { ?> 
-	<option value="<?php	echo $rowl['id']; ?>"><?php	echo $rowl['name']; ?> - #<?php echo $rowl['address']; ?>#<?php echo $rowl['mode']; ?>#<?php echo $rowl['vale']; ?>##</option> 	
+	<?php $resultel = mysqli_query($con,"SELECT * FROM commands WHERE controlir!='0' AND id_user = '$G_id_user'"); while($rowl = mysqli_fetch_assoc($resultel)) { $controlir = $rowl['controlir'];$addr_s = $rowl['address'];?> 
+	
+		<?php    $resulte = mysqli_query($con,"SELECT * FROM namedev WHERE address = '$addr_s'  ");while($rowe = mysqli_fetch_assoc($resulte)) {$namedeva = $rowe['name']; }?> 
+	
+	<option value="<?php	echo $rowl['id']; ?>"><?php	echo $rowl['name']; ?> - #<?php echo $rowl['address']." : ".$namedeva; ?>#<?php echo $rowl['mode']; ?>#<?php echo $rowl['vale']; ?>##[Контроль по <?php echo $controlir; ?> значению]</option> 	
 	<?php } ?> 
 	</select>
 </div>	
@@ -207,7 +213,7 @@ header("Location: button.php");
 	?> 
 		<optgroup label="<?php $resultetype = mysqli_query($con,"SELECT name FROM type WHERE mode ='$moderow' GROUP BY type "); while($rowetype = mysqli_fetch_assoc($resultetype)) { echo $moderow." - ".$rowetype['name'];}?>">
 		<?php $resultel = mysqli_query($con,"SELECT * FROM commands WHERE mode='$moderow' "); while($rowl = mysqli_fetch_assoc($resultel)) { ?> 
-			<option value="<?php	echo $rowl['id']; ?>"><?php	echo $rowl['name']; ?>-<?php echo $rowl['mode']; ?>,<?php echo $rowl['address']; ?>,<?php echo $rowl['vale1']; ?>,<?php echo $rowl['vale2']; ?>,<?php echo $rowl['vale3']; ?>
+			<option value="<?php	echo $rowl['id']; ?>"><?php	echo $rowl['name']; ?>-<?php echo $rowl['mode']; ?>#<?php echo $rowl['address']; ?>#<?php echo $rowl['vale']; ?>##
 			</option> 	
 		<?php } ?> 
 		</optgroup>

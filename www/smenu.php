@@ -314,7 +314,7 @@ $znag_max=round($a['vale'], 1);
 	
 <div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>
 
-<div id="const<?php	echo $rowe['id']; ?>" style="display:none;">
+<div id="const<?php	echo $rowe['id']; ?>" style="display:none;padding-left: 10px;">
 <div id="nedel<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за неделю:</div>
 <div id="mes<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за месяц:</div>
 <div id="god<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за год:</div>

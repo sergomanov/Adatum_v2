@@ -22,6 +22,8 @@ if (isset($_POST['save']))
  $vale2 = $_POST['vale2'];
  $vale3 = $_POST['vale3'];
  $vale4 = $_POST['vale4'];
+ $controlir = $_POST['controlir'];
+ 
 
 $ftype = mysqli_query($con,"SELECT * FROM `type` WHERE mode='$mode'");  if($ftype){while($ftype = mysqli_fetch_assoc($ftype)){ $rowmode=$ftype['type']; }} 
 
@@ -35,7 +37,7 @@ if($idt!=0){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Это �
  
  
 if($errors==NULL){
-mysqli_query($con,"INSERT INTO commands (name, mode, address,cond,vale,id_user) VALUES ('$name','$mode','$address','$vale4','$vale','$G_id_user')");
+mysqli_query($con,"INSERT INTO commands (name, mode, address,cond,vale,id_user,controlir) VALUES ('$name','$mode','$address','$vale4','$vale','$G_id_user','$controlir')");
 header("Location: run.php");
 }
 
@@ -51,10 +53,8 @@ if (isset($_POST['edit'])) {
  $vale1 = $_POST['vale1'];
  $vale2 = $_POST['vale2'];
  $vale3 = $_POST['vale3'];
- 
-
  $vale4 = $_POST['vale4'];
- 
+ $controlir = $_POST['controlir']; 
  
  $ftype = mysqli_query($con,"SELECT * FROM `type` WHERE mode='$mode'");  if($ftype){while($ftype = mysqli_fetch_assoc($ftype)){ $rowmode=$ftype['type']; }} 
 
@@ -64,7 +64,7 @@ if($rowmode==3){ $vale=rtrim($vale1.",".$vale2.",".$vale3, " \t,");}
 if($rowmode==4){ $vale="";}
  
  if($errors==NULL){
-mysqli_query($con,"UPDATE commands SET name='$name',mode ='$mode',address ='$address',vale ='$vale',cond ='$vale4'  WHERE id = '$id'");
+mysqli_query($con,"UPDATE commands SET name='$name',mode ='$mode',address ='$address',vale ='$vale',cond ='$vale4',controlir ='$controlir'  WHERE id = '$id'");
 header("Location: run.php");
  }
 }
@@ -145,90 +145,34 @@ header("Location: run.php");
                       </div>
 		</div> 
 				
+<div class="radio radio-success" style="padding: 6px;  margin-top: 8px;  background: #D5D5D5;  border-radius: 6px;">
+                        
+     <div style="font-size: 11px;  color: #3F47CB;  padding: 3px;">
+	 Для отображения датчика в списке 'Устройство контроля состояния' УПРАВЛЕНИЯ ПАНЕЛЬЮ ЗАДАЧ необходимо выбрать контролируемое значение <br>(должно принимать значения <gcol>0</gcol> либо <gcol>1</gcol>)
+	 </div>                
+		<input id="Mradio0" checked="checked" type="radio" name="controlir" value="0" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio0">&nbsp; Нет контроля</label>				
 
-		<p id="i_vale1_name"></p>
-		<div id="i_vale1" style="display: none"><input type="text" name="vale1" id="vale1" class="form-control" placeholder=""> </div> 
+		<p id="i_vale1_name" style=" font-size: 11px;"></p>
+		<div id="i_vale1" style="display: none">
+		<input id="Mradio1" type="radio" name="controlir" value="1" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio1">&nbsp; Контроль по этому значению</label><br>
+		<input type="text" name="vale1" id="vale1" class="form-control" placeholder=""> 
+		</div> 
 
-		<p id="i_vale2_name"></p>
-		<div id="i_vale2" style="display: none"><input type="text" name="vale2" id="vale2" class="form-control" placeholder=""> </div> 
+		<p id="i_vale2_name" style=" font-size: 11px;"></p>
+		<div id="i_vale2" style="display: none">
+		   <input id="Mradio2" type="radio" name="controlir" value="2" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio2">&nbsp; Контроль по этому значению</label><br>
+		<input type="text" name="vale2" id="vale2" class="form-control" placeholder=""> 
+		</div> 
 		
-		<p id="i_vale3_name" ></p>
-		<div id="i_vale3" style="display: none"><input type="text" name="vale3" id="vale3" class="form-control" placeholder=""> </div> 
+		<p id="i_vale3_name" style=" font-size: 11px;"></p>
+		<div id="i_vale3" style="display: none">
+		<input id="Mradio3" type="radio" name="controlir" value="3" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio3">&nbsp; Контроль по этому значению</label><br>
+		<input type="text" name="vale3" id="vale3" class="form-control" placeholder="">
+		</div> 
 			
-				
+</div>				
 		
-<script type="text/javascript">
-function go(i_page) 
-  { 
-    var val_i_page = i_page.value;
-
-  if(val_i_page==0)
- {
- 
-	document.getElementById('i_name').style.display="none";
-    document.getElementById('i_address').style.display="none";
-	document.getElementById('i_vale1').style.display="none";
-	document.getElementById('i_vale2').style.display="none";
-	document.getElementById('i_vale3').style.display="none";
-	document.getElementById('i_vale4').style.display="none";
-	document.getElementById('i_vale1_name').innerHTML='';
-	document.getElementById('i_vale2_name').innerHTML='';
-	document.getElementById('i_vale3_name').innerHTML='';
 	
-	
-	}
-	
-<?php    $resscr = mysqli_query($con,"SELECT * FROM type");while($rowscr = mysqli_fetch_assoc($resscr)) { ?> 
-		
- if(val_i_page=='<?php echo $rowscr['mode'];?>')
- {
-	
-	document.getElementById('i_vale1_name').innerHTML='<?php echo $rowscr['namevalue1'];?>';
-	document.getElementById('i_vale2_name').innerHTML='<?php echo $rowscr['namevalue2'];?>';
-	document.getElementById('i_vale3_name').innerHTML='<?php echo $rowscr['namevalue3'];?>';
- 
- <?php if($rowscr['type']==1){ ?>
-	document.getElementById('i_name').style.display="block";
-    document.getElementById('i_address').style.display="block";
-	document.getElementById('i_vale1').style.display="block";
-	document.getElementById('i_vale2').style.display="none";
-	document.getElementById('i_vale3').style.display="none";
-	document.getElementById('i_vale4').style.display="block";
-<?php } ?> 
-
- <?php if($rowscr['type']==2){ ?>
-	document.getElementById('i_name').style.display="block";
-    document.getElementById('i_address').style.display="block";
-	document.getElementById('i_vale1').style.display="block";
-	document.getElementById('i_vale2').style.display="block";
-	document.getElementById('i_vale3').style.display="none";
-	document.getElementById('i_vale4').style.display="none";
-<?php } ?> 
-
- <?php if($rowscr['type']==3){ ?>
-	document.getElementById('i_name').style.display="block";
-    document.getElementById('i_address').style.display="block";
-	document.getElementById('i_vale1').style.display="block";
-	document.getElementById('i_vale2').style.display="block";
-	document.getElementById('i_vale3').style.display="block";
-	document.getElementById('i_vale4').style.display="none";
-<?php } ?> 
-
- <?php if($rowscr['type']==4){ ?>
-	document.getElementById('i_name').style.display="block";
-    document.getElementById('i_address').style.display="block";
-	document.getElementById('i_vale1').style.display="none";
-	document.getElementById('i_vale2').style.display="none";
-	document.getElementById('i_vale3').style.display="none";
-	document.getElementById('i_vale4').style.display="none";
-<?php } ?> 
-
-	}
-	 	
-<?php } ?> 
-
-  } 
-</script> 	
 				   
 			<br>
 				<br>
@@ -302,7 +246,15 @@ $Str = mysqli_query($con,"SELECT * FROM type WHERE mode='$rowmode' AND id_user =
 				 else {$resico = mysqli_query($con,"SELECT * FROM `type` WHERE mode ='$rowmode' AND (id_user = '$G_id_user' OR id_user = '0')");}
 	 if($resico){while($rowico = mysqli_fetch_assoc($resico)){$rowicon=$rowico['ico']; $rowcolor=$rowico['color'];?>
 	 <i class="<?php echo $rowicon; ?> text-success " style="font-size: 18px; color: <?php	echo $rowcolor; ?> !important;"></i> <?php }}  ?>
-	</td>
+
+     
+<?php if($row['controlir']==0){?> <i class="icon-eye-off" style="font-size: 18px; color: #E4E4E4 !important;"></i> <?php }  ?>
+<?php if($row['controlir']!=0){?><i class="icon-eye" style="font-size: 18px; color: #6851D2 !important;"></i> <?php }  ?>
+			
+	 
+	 
+	  
+	 </td>
 
 
 	<td onclick="getText<?php echo $row['id'];?>()" style="cursor: pointer;">
@@ -361,6 +313,7 @@ function getText<?php echo $row['id'];?>(el){
 		document.getElementById('vale2').value = '<?php	echo $Pvalue[1]; ?>';
 		document.getElementById('vale3').value = '<?php	echo $Pvalue[2]; ?>';
 		document.getElementById("radio<?php	echo $row['cond']; ?>").checked = true; 
+		document.getElementById("Mradio<?php	echo $row['controlir']; ?>").checked = true; 
 	}
 </script>
 					  
@@ -369,27 +322,90 @@ function getText<?php echo $row['id'];?>(el){
 										<?php  }}	?>													
 		  </tbody>
 			</table>	
-
-			
         </section>
-	
-    </div>
-  
-	
-</div>
-
-
-
 </div>
 </div>
-
-				</div>
-				
-		</div>
-
-	</form>
-	</body>
+</div>
+</div>
+</div>
+</div>
+</form>
+</body>
 </html>
+
+<script type="text/javascript">
+function go(i_page) 
+  { 
+    var val_i_page = i_page.value;
+
+  if(val_i_page==0)
+ {
+ 
+	document.getElementById('i_name').style.display="none";
+    document.getElementById('i_address').style.display="none";
+	document.getElementById('i_vale1').style.display="none";
+	document.getElementById('i_vale2').style.display="none";
+	document.getElementById('i_vale3').style.display="none";
+	document.getElementById('i_vale4').style.display="none";
+	document.getElementById('i_vale1_name').innerHTML='';
+	document.getElementById('i_vale2_name').innerHTML='';
+	document.getElementById('i_vale3_name').innerHTML='';
+	
+	
+	}
+	
+<?php    $resscr = mysqli_query($con,"SELECT * FROM type");while($rowscr = mysqli_fetch_assoc($resscr)) { ?> 
+		
+ if(val_i_page=='<?php echo $rowscr['mode'];?>')
+ {
+	
+	document.getElementById('i_vale1_name').innerHTML='<?php echo $rowscr['namevalue1'];?>';
+	document.getElementById('i_vale2_name').innerHTML='<?php echo $rowscr['namevalue2'];?>';
+	document.getElementById('i_vale3_name').innerHTML='<?php echo $rowscr['namevalue3'];?>';
+ 
+ <?php if($rowscr['type']==1){ ?>
+	document.getElementById('i_name').style.display="block";
+    document.getElementById('i_address').style.display="block";
+	document.getElementById('i_vale1').style.display="block";
+	document.getElementById('i_vale2').style.display="none";
+	document.getElementById('i_vale3').style.display="none";
+	document.getElementById('i_vale4').style.display="block";
+<?php } ?> 
+
+ <?php if($rowscr['type']==2){ ?>
+	document.getElementById('i_name').style.display="block";
+    document.getElementById('i_address').style.display="block";
+	document.getElementById('i_vale1').style.display="block";
+	document.getElementById('i_vale2').style.display="block";
+	document.getElementById('i_vale3').style.display="none";
+	document.getElementById('i_vale4').style.display="none";
+<?php } ?> 
+
+ <?php if($rowscr['type']==3){ ?>
+	document.getElementById('i_name').style.display="block";
+    document.getElementById('i_address').style.display="block";
+	document.getElementById('i_vale1').style.display="block";
+	document.getElementById('i_vale2').style.display="block";
+	document.getElementById('i_vale3').style.display="block";
+	document.getElementById('i_vale4').style.display="none";
+<?php } ?> 
+
+ <?php if($rowscr['type']==4){ ?>
+	document.getElementById('i_name').style.display="block";
+    document.getElementById('i_address').style.display="block";
+	document.getElementById('i_vale1').style.display="none";
+	document.getElementById('i_vale2').style.display="none";
+	document.getElementById('i_vale3').style.display="none";
+	document.getElementById('i_vale4').style.display="none";
+<?php } ?> 
+
+	}
+	 	
+<?php } ?> 
+
+  } 
+</script> 
+
 <script type="text/javascript">
 	function clin(){
 		document.myForm.edit.disabled = true;
