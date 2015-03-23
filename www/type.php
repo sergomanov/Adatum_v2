@@ -51,8 +51,9 @@ if (isset($_POST['edittype'])) {
 	if($type == '2') {  $namevalue3=''; };
 	if($type == '4') {  $namevalue1=''; $namevalue2='';  $namevalue3=''; };
 	
-$rtype = mysqli_query($con,"SELECT * FROM type WHERE mode='$mode' "); while($rowr = mysqli_fetch_assoc($rtype)) {$id_r = $rowr['id'];}
-if($id_r!=$id){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Датчик с таким типом уже есть в базе !";}
+$idt=0; $rtype = mysqli_query($con,"SELECT * FROM type WHERE mode='$mode' "); while($rowr = mysqli_fetch_assoc($rtype)) {$idt++; $id_r = $rowr['id'];}
+
+if($id_r!=$id AND $idt>0 ){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Датчик с таким типом уже есть в базе !";}
 	
 if($errors==NULL){
 	mysqli_query($con,"UPDATE type SET name='$name',type='$type',ico='$ico',mode='$mode',symbol='$symbol',namevalue1='$namevalue1',namevalue2='$namevalue2',namevalue3='$namevalue3',regim='$regim',tchart='$tchart',color='$colorss'  WHERE id = '$id'");
@@ -168,10 +169,7 @@ if (isset($_POST['deltype'])) {
 	
      
 
-<?php 
-  $rp="";		$resulte = mysqli_query($con,"SELECT mode FROM developments GROUP BY mode ");while($rowe = mysqli_fetch_assoc($resulte)) { 
-  $rp="'".$rowe['mode']."',".$rp;		}					
-?> 
+<?php  $rp="";	$resulte = mysqli_query($con,"SELECT mode FROM developments GROUP BY mode ");while($rowe = mysqli_fetch_assoc($resulte)) {  $rp="'".$rowe['mode']."',".$rp;		}	?> 
  
 
 <script>
@@ -185,24 +183,9 @@ minLength: 0,delay: 0});$('#modetype').bind('focus', function() {if ($(this).val
 	
 <div id="i_simvol" style="display: none">
 	<p>Символ</p>
-
-<?php 
-  $rp="";		$resulte = mysqli_query($con,"SELECT symbol FROM type GROUP BY symbol ");while($rowe = mysqli_fetch_assoc($resulte)) { 
-  $rp="'".$rowe['symbol']."',".$rp;		}					
-?> 
-
-<script>
-$(document).ready(function (){	$('#symbol').autocomplete({source: [<?php echo $rp; ?>],
-minLength: 0,delay: 0});$('#symbol').bind('focus', function() {if ($(this).val() == '') $(this).autocomplete('search', '');	});});
-</script>
-
-
- 
-	  
-    <input class="form-control" type="text" id="symbol" name="symbol"  />
-
-
-
+	<?php   $rp="";		$resulte = mysqli_query($con,"SELECT symbol FROM type GROUP BY symbol ");while($rowe = mysqli_fetch_assoc($resulte)) {   $rp="'".$rowe['symbol']."',".$rp;		}	?> 
+	<script>$(document).ready(function (){	$('#symbol').autocomplete({source: [<?php echo $rp; ?>],minLength: 0,delay: 0});$('#symbol').bind('focus', function() {if ($(this).val() == '') $(this).autocomplete('search', '');	});});</script>
+	<input class="form-control" type="text" id="symbol" name="symbol"  />
 </div>
 
 <div style="  background: #EBEBEB;  padding: 7px;margin-top: 7px;  border-radius: 8px;">	

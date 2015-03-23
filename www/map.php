@@ -61,6 +61,11 @@ if(isset($_GET['edit']))
 
 			
 			
+
+
+			
+			
+			
 			
 			
 		<?php 
@@ -74,7 +79,7 @@ if(isset($_GET['edit']))
 			$drivers= $rowe['drivers'];	$rtype = mysqli_query($con,"SELECT * FROM type WHERE id_user = '$G_id_user' AND id in ($drivers) ");
 			while($rowr = mysqli_fetch_assoc($rtype)) 
 				{
-			$id=$rowr['id'];
+			$id=$rowr['id']."H".$rowe['id'];
 			$modeadr=$rowr['mode'];
 			$symbol=$rowr['symbol'];
 			$r_left_polles="tr_left_".$id; 
@@ -164,7 +169,7 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 					
 					});
 </script>
-		
+	
 
 <script type="text/javascript">
 function widdiv<?php	echo $id;?>(){
@@ -188,11 +193,11 @@ document.getElementById('draa<?php	echo $id;?>').style.zIndex ="9";
 	
 	
 	<sd class="polezn" style="margin:  4px 0px 0px 60px;">
-за неделю  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $C_zna_sr; ?></scol>/<gcol><?php	echo $C_zna_min; ?></gcol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?>
+за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $C_zna_min; ?></gcol>/<scol><?php	echo $C_zna_sr; ?></scol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?>
 	</sd>
 	
 	<sd class="polezn"  style="margin:  36px 0px 0px 60px;">
-за месяц  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $C_zna_sr; ?></scol>/<gcol><?php	echo $C_zna_min; ?></gcol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?>
+за месяц  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $C_zna_min; ?></gcol>/<scol><?php	echo $C_zna_sr; ?></scol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?>
 	</sd>
 	
 		

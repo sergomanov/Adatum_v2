@@ -12,7 +12,7 @@
 				<?php	 include 'topmenu.php'; ?>
 				<?php	 include 'smenu.php'; ?>	
 
-<div class="s2-map ">
+<div class="s2-map " id="map">
 	
 
 <div class="right-area5 -js-right-area Mscroll" style="display: block;  padding: 0px;  outline: none;" tabindex="0">
@@ -259,6 +259,15 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 			backgroundOpacity: 0.1,
 			 margin: -10,
 			show: true
+			},
+			series: {
+				lines: {
+					show: true,
+					radius: 1
+				},
+				points: {
+					show: true
+				}
 			},
 			yaxis: {
 			},

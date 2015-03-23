@@ -110,13 +110,6 @@ header("Location: setting.php");
        	<?php	if($errors!=NULL){ echo '<div class="alert alert-warning">'.$errors.'</div>';} ?>	
 		
         <div class="section">
-
-			
-			
-			
-			
-			
-	
 		<script charset="utf-8" src="./feditor/kindeditor.js"></script>
 		<script charset="utf-8" src="./feditor/ru_Ru.js"></script>
 		
@@ -324,10 +317,12 @@ style.display = "none";
                                             </tr>
                                         </thead>
                                         <tbody>
-										<?php
-										$IDDN = mysqli_query($con,"SELECT * FROM users WHERE id_user = '$G_id_user' ORDER BY id_user DESC");
-										if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
-										?>
+<?
+if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM users ORDER BY id_user DESC");}
+			else {$IDDN = mysqli_query($con,"SELECT * FROM users WHERE id_user = '$G_id_user' ORDER BY id_user DESC");}
+
+if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
+?>
 			
 <tr>
 

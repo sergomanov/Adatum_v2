@@ -193,6 +193,9 @@ text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bo
 				   if ($result=mysqli_query($con,"SELECT * FROM developments WHERE mode='$mode4' AND address='$address'"))  {  $rowcount=mysqli_num_rows($result);  }
 				   
 					if($rowcount>10){
+						
+					$resulte48 = mysqli_query($con,"SELECT * FROM developments WHERE address='$address' AND mode='$mode4' ORDER BY id DESC LIMIT 1");	
+				   while($rowe48 = mysqli_fetch_assoc($resulte48)) {$L_valus_z = $rowe48['vale'];}
 				   
 				   
 				   $resulte5 = mysqli_query($con,"SELECT * FROM type WHERE mode='$mode4'");	
@@ -209,7 +212,7 @@ border-bottom: 2px solid white;width: 25%;margin: 0px;padding-top: 3px">
 
 <?php if($onlin==0) {echo "<i class='icon-block-3' style='  font-size: 23px;  position: absolute;   color: #7B4F4F;'></i>";} ?>
 <i class="<?php	echo $ico5; ?>" style="  font-size: 22px;padding: 0px;color:<?php	echo $color5; ?>"></i>
-	<br><div style="    font-size: 10px;"><?php	echo $rowe4['vale']; ?>	<?php	echo $symbol5; ?></div>								
+	<br><div style="    font-size: 10px;"><?php	echo $L_valus_z; ?>	<?php	echo $symbol5; ?></div>								
 </div>	
 
 
@@ -245,18 +248,17 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 //-------------------------------- за неделю ---------------------------------
 $datetimein=time()-604800;
 $datetimeout=time();
+
 $a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
 $zna_sr=round($a['vale'], 1);
 
-$datetimein=time()-604800;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$zna_min=round($a['vale'], 1);
 
-$datetimein=time()-604800;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$zna_max=round($a['vale'], 1);
+$as = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$zna_min=round($as['vale'], 1);
+
+
+$am = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$zna_max=round($am['vale'], 1);
 //-------------------------------- за неделю ---------------------------------
 
 //-------------------------------- за месяц ---------------------------------
@@ -265,15 +267,11 @@ $datetimeout=time();
 $a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
 $znam_sr=round($a['vale'], 1);
 
-$datetimein=time()-2592000;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znam_min=round($a['vale'], 1);
+$al = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znam_min=round($al['vale'], 1);
 
-$datetimein=time()-2592000;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znam_max=round($a['vale'], 1);
+$ya = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znam_max=round($ya['vale'], 1);
 //-------------------------------- за месяц ---------------------------------
 
 //-------------------------------- за год ---------------------------------
@@ -282,33 +280,43 @@ $datetimeout=time();
 $a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
 $znag_sr=round($a['vale'], 1);
 
-$datetimein=time()-31536000;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znag_min=round($a['vale'], 1);
+$aw = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znag_min=round($aw['vale'], 1);
 
-$datetimein=time()-31536000;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znag_max=round($a['vale'], 1);
+
+$aq = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
+$znag_max=round($aq['vale'], 1);
 //-------------------------------- за год ---------------------------------
 ?>
 
 
- document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $zna_sr; ?></scol>/<gcol><?php	echo $zna_min; ?></gcol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
+ document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $zna_min; ?></gcol>/<scol><?php	echo $zna_sr; ?></scol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
  
- document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <scol>сред </scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $znam_sr; ?></scol>/<gcol><?php	echo $znam_min; ?></gcol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
+ document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <gcol>мин</gcol>/<scol>сред </scol>/<rcol>макс</rcol>: <gcol><?php	echo $znam_min; ?></gcol>/<scol><?php	echo $znam_sr; ?></scol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
  
- document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <scol>сред</scol>/<gcol>мин</gcol>/<rcol>макс</rcol>: <scol><?php	echo $znag_sr; ?></scol>/<gcol><?php	echo $znag_min; ?></gcol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
+ document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $znag_min; ?></gcol>/<scol><?php	echo $znag_sr; ?></scol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
  
  };
 </script>	
 
 		
+	<?php
+
+$am = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale FROM developments  WHERE mode = 'HUM' AND address = '74-69-69-2D-30-99' "));
+echo $am['vale'];
+
+?>	
+		
+		
+		
+		
+		
 				   <?php }}} ?>  							
 	
 
 
+	
+	
 	
 
 	
