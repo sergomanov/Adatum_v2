@@ -229,10 +229,15 @@ function showTooltip(x, y, contents) {
 	
 
 
-?>		var d<?php echo $rowchart['id'];?> = [	   <?php
+
+?>		var d<?php echo $rowchart['id'];?> = [	  
+<?php
 $per=0;
 
-$res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
+if ($resultry=mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"))  {  $rowcountty=mysqli_num_rows($resultry);  }
+	  $res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
+
+if($rowcountty<20){
 if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$utime7=$row9['unixtime'];
 	$vale79=$row9['vale'];
@@ -240,6 +245,21 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$utime7=$utime7."000";
 	echo "[".$utime7.",".$per."],";
 }}
+} else {
+$coltec=0;$col_per=ceil($rowcountty/20);$gl=0;
+if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
+	$coltec++;
+	$utime7=$row9['unixtime'];
+	$utime7=$utime7."000";
+	$vale79=$row9['vale'];
+	$gl=$gl+$vale79;
+   if($coltec==$col_per){
+	   if($per==0){$per=$gl;} else {$per=$per*0.9+$gl*0.1;}
+	   echo "[".$utime7.",".$per/$coltec."],"; $coltec=0;$gl=0;
+
+	   }
+} echo "[".$utime7.",".$gl/$coltec."],";}
+}
 ?>	
 		];
 	

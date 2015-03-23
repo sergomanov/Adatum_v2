@@ -177,42 +177,47 @@ text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bo
 	
 	
 	
-<div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>		
+<div style="width: 25%;font-size: 1px;"><span class="">-</span> </div>		
 	
 
 	
 	
-	
-	
-			<?php 
+	<?php 
 		
 				   $resulte4 = mysqli_query($con,"SELECT * FROM developments WHERE address='$address' GROUP BY `mode`");	
 				   while($rowe4 = mysqli_fetch_assoc($resulte4)) {
 				   $mode4=$rowe4['mode'];
 				   
-				   if ($result=mysqli_query($con,"SELECT * FROM developments WHERE mode='$mode4' AND address='$address'"))  {  $rowcount=mysqli_num_rows($result);  }
-				   
-					if($rowcount>10){
+				
 						
 					$resulte48 = mysqli_query($con,"SELECT * FROM developments WHERE address='$address' AND mode='$mode4' ORDER BY id DESC LIMIT 1");	
-				   while($rowe48 = mysqli_fetch_assoc($resulte48)) {$L_valus_z = $rowe48['vale'];}
+				    while($rowe48 = mysqli_fetch_assoc($resulte48)) {$L_valus_z = $rowe48['vale'];}
 				   
+				   
+				      if ($result=mysqli_query($con,"SELECT * FROM developments WHERE mode='$mode4' AND address='$address'"))  {  $rowcount=mysqli_num_rows($result);  }
+				   
+			
 				   
 				   $resulte5 = mysqli_query($con,"SELECT * FROM type WHERE mode='$mode4'");	
-				   while($rowe5 = mysqli_fetch_assoc($resulte5)) { $ico5=$rowe5['ico']; $color5=$rowe5['color']; $symbol5=$rowe5['symbol']; $type5=$rowe5['type'];$namevalue1_5=$rowe5['namevalue1'];}
-				   if($type5==1){
-			
+				   while($rowe5 = mysqli_fetch_assoc($resulte5)) { 
+				   $ico5=$rowe5['ico']; 
+				   $color5=$rowe5['color']; 
+				   $symbol5=$rowe5['symbol']; 
+				   $type5=$rowe5['type'];
+				   $namevalue1_5=$rowe5['namevalue1'];
+				   }
+				  
+				  if($type5==1 AND $rowcount>5){
+
+
 			?> 
 				
 			
 	
-<div title="<?php	echo $namevalue1_5; ?>" onclick="chartG<?php	echo $rowe4['id']; ?>();" 
- class="add-command s2-control-button s2-control-left2" style="background: rgba(239, 207, 109, 0.79);text-align: center;border-left: 2px solid white;height: 60px;
-border-bottom: 2px solid white;width: 25%;margin: 0px;padding-top: 3px">		
-
-<?php if($onlin==0) {echo "<i class='icon-block-3' style='  font-size: 23px;  position: absolute;   color: #7B4F4F;'></i>";} ?>
-<i class="<?php	echo $ico5; ?>" style="  font-size: 22px;padding: 0px;color:<?php	echo $color5; ?>"></i>
-	<br><div style="    font-size: 10px;"><?php	echo $L_valus_z; ?>	<?php	echo $symbol5; ?></div>								
+<div title="<?php	echo $namevalue1_5; ?>" onclick="chartG<?php	echo $rowe4['id']; ?>();" class="add-command s2-control-button s2-control-left2 Cg2">		
+	<?php if($onlin==0) {echo "<i class='icon-block-3' style='  font-size: 23px;  position: absolute;   color: #7B4F4F;'></i>";} ?>
+	<i class="<?php	echo $ico5; ?>" style="  font-size: 22px;padding: 0px;color:<?php	echo $color5; ?>"></i><br>
+	<div style="    font-size: 10px;"><?php	echo $L_valus_z; ?>	<?php	echo $symbol5; ?></div>								
 </div>	
 
 
@@ -227,8 +232,11 @@ function chartG<?php	echo $rowe4['id']; ?>(){
 $per=0;
 $datetimein=time()-864000;
 $datetimeout=time();
-	
+
+if ($resultr=mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"))  {  $rowcountt=mysqli_num_rows($resultr);  }
 $res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
+
+if($rowcountt<240){
 if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$utime7=$row9['unixtime'];
 	$vale79=$row9['vale'];
@@ -236,6 +244,24 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$utime7=$utime7."000";
 	echo "[".$utime7.",".$per."],";
 }}
+}
+else{
+$coltec=0;$col_per=ceil($rowcountt/240);$gl=0;
+if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
+	$coltec++;
+	$utime7=$row9['unixtime'];
+	$utime7=$utime7."000";
+	$vale79=$row9['vale'];
+	$gl=$gl+$vale79;
+   if($coltec==$col_per){
+	   if($per==0){$per=$gl;} else {$per=$per*0.9+$gl*0.1;}
+	   echo "[".$utime7.",".$per/$coltec."],"; $coltec=0;$gl=0;
+	   }
+} echo "[".$utime7.",".$gl/$coltec."],";}
+}
+
+
+
 
 ?>
 ];
@@ -290,58 +316,34 @@ $znag_max=round($aq['vale'], 1);
 ?>
 
 
- document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $zna_min; ?></gcol>/<scol><?php	echo $zna_sr; ?></scol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
+document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $zna_min; ?></gcol>/<scol><?php	echo $zna_sr; ?></scol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
  
- document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <gcol>мин</gcol>/<scol>сред </scol>/<rcol>макс</rcol>: <gcol><?php	echo $znam_min; ?></gcol>/<scol><?php	echo $znam_sr; ?></scol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
+document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <gcol>мин</gcol>/<scol>сред </scol>/<rcol>макс</rcol>: <gcol><?php	echo $znam_min; ?></gcol>/<scol><?php	echo $znam_sr; ?></scol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
  
- document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $znag_min; ?></gcol>/<scol><?php	echo $znag_sr; ?></scol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
+document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $znag_min; ?></gcol>/<scol><?php	echo $znag_sr; ?></scol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
  
  };
-</script>	
-
-		
-	<?php
-
-$am = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale FROM developments  WHERE mode = 'HUM' AND address = '74-69-69-2D-30-99' "));
-echo $am['vale'];
-
-?>	
-		
-		
-		
-		
-		
-				   <?php }}} ?>  							
+</script>
 	
-
-
+<?php }} ?>  							
 	
+<br><br>
 	
-	
+	<div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>
 
-	
-<div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>
-
-<div id="const<?php	echo $rowe['id']; ?>" style="display:none;padding-left: 10px;">
-<div id="nedel<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за неделю:</div>
-<div id="mes<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за месяц:</div>
-<div id="god<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за год:</div>
-<div style="font-size: 12px; color: #4B4CAE;">Показан график за последние 10 дней.</div>
-</div>
-
-
-
-		
-	
+	<div id="const<?php	echo $rowe['id']; ?>" style="display:none;padding-left: 10px;">
+	<div id="nedel<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за неделю:</div>
+	<div id="mes<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за месяц:</div>
+	<div id="god<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за год:</div>
+	<div style="font-size: 12px; color: #4B4CAE;">Показан график за последние 10 дней.</div>
+	</div>
 			
-<div id="placeholder<?php	echo $rowe['id']; ?>" style="width:100%;height:0px;padding: 10px;"></div>
+	<div id="placeholder<?php	echo $rowe['id']; ?>" style="width:100%;height:0px;padding: 10px;"></div>
 
 
 </div>	
 
 </div>
-
-
 
 
 </div>
@@ -361,8 +363,7 @@ echo $am['vale'];
 		</div>
 	</a>
 </li>
-	<div style="padding: 5px 1px 1px 10px;color: #4386A0;font-size: 12px;"><?php	echo "Добро пожаловать: ".$login_user." (id:".$G_id_user.")";  ?></div>
-	
+<div style="padding: 5px 1px 1px 10px;color: #4386A0;font-size: 12px;"><?php	echo "Добро пожаловать: ".$login_user." (id:".$G_id_user.")";  ?></div>
 <div  style="height: 100px;"></div>	
 
 

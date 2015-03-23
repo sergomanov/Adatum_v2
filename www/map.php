@@ -152,8 +152,11 @@ $C_znam_max=round($C_a['vale'], 1);
 $per=0;
 $datetimein=time()-864000;
 $datetimeout=time();
-	
+if ($resultrt=mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"))  {  $rowcounttr=mysqli_num_rows($resultrt);  }
+
 $res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
+
+if($rowcounttr<240){
 if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$utime7=$row9['unixtime'];
 	$vale79=$row9['vale'];
@@ -161,6 +164,20 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$utime7=$utime7."000";
 	echo "[".$utime7.",".$per."],";
 }}
+} else {
+$coltecr=0;$col_per=ceil($rowcounttr/240);$gle=0;
+if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
+	$coltecr++;
+	$utime7=$row9['unixtime'];
+	$utime7=$utime7."000";
+	$vale79=$row9['vale'];
+	$gle=$gle+$vale79;
+   if($coltecr==$col_per){
+	   if($per==0){$per=$gle;} else {$per=$per*0.9+$gle*0.1;}
+	   echo "[".$utime7.",".$per/$coltecr."],"; $coltecr=0;$gle=0;
+	   }
+} echo "[".$utime7.",".$gle/$coltecr."],";}
+}
 
 ?>
 ];

@@ -188,7 +188,7 @@ clickFn : function(url, title, width, height, border, align) {K('#imgfon').val(u
 		<option <?php if($timezone==46800){echo "selected";}?> title="[UTC + 13] 	 Острова Феникс, Тонга" value="46800">[UTC + 13] Острова Феникс, Тонга</option>
 		<option <?php if($timezone==50400){echo "selected";}?> title="[UTC + 14]	 Остров Лайн" value="50400">[UTC + 14] Остров Лайн</option>
 	</select>               
-                    
+           
                 </div>
             </div>
         </div>

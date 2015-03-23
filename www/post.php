@@ -12,10 +12,12 @@ $unixtime=time();
 //if(isset($_GET['ID'])&&!isset($_GET['QQ']))
 if(isset($_GET['ID']) || isset($_POST['ID'])){
 	
-	mysqli_query($con,"UPDATE namedev SET unixtime='$unixtime' WHERE address = '$address'");  //обновление времени доступа датчика в систему
+	
    
 		if(isset($_GET['ID'])) {$address =  $_GET['ID'];}
 		if(isset($_POST['ID'])){$address = $_POST['ID'];}
+		
+		mysqli_query($con,"UPDATE namedev SET unixtime='$unixtime' WHERE address = '$address'");  //обновление времени доступа датчика в систему
 		
 		$cont = $_SERVER["REQUEST_URI"] ;
 		$cont = substr($cont, 10);

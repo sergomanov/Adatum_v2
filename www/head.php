@@ -222,7 +222,7 @@ jQuery(document).ready(function($) {
 <div id="page-preloader">
 <i class="icon-spin6 animate-spin" style="  color: #fff;  font-size: 60px;   margin: -30px 0 0 -30px; position: absolute;  left: 50%;  top: 50%;"></i>
 </div>
-
+<?php	 include_once  'runtime.php'; ?>
 
 
 
