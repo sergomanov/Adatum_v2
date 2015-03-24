@@ -186,9 +186,9 @@ position: static;
 	{
 		background-color: #ffa800!important;
 		left: auto!important;
-		padding: 11px 18px 17px!important;
+		
 		right: 0;
-		visibility: hidden; 
+		
 		font-size: 23px;
 	}
 	
@@ -1217,7 +1217,8 @@ transition: opacity,margin .5s ease;
 opacity: .8;
 cursor: pointer;
 position: absolute;
-top: 60px;
+top: 73px;
+  height: 50px;
 width: 60px;
 left: 0px;
 font-size: 23px;
@@ -1499,6 +1500,7 @@ color: #8a6d3b;
 }
 scol{   color: rgb(103, 91, 208);font-weight: bold;}
 gcol{   color: rgb(47, 207, 110);font-weight: bold;}
+rcol{   color: rgb(249, 3, 3);font-weight: bold;}
 
 .mycursor{ cursor : url("link.cur"), auto; }
 
@@ -1525,4 +1527,23 @@ background: #64707E;
 color: #fff !important;
 padding: 5px;
 z-index: 999;
+}
+
+.chartsM{
+background: rgba(255, 255, 255, 0.95);border: 1px solid #E7D5D2;width: 275px;height: 185px;margin: -1px;position: absolute;padding: 3px;
+}
+
+.polezn
+{
+border-radius: 20px;  border: 1px solid rgb(216, 216, 216); vertical-align:middle; text-align:center;position: absolute;z-index: 1;font-size: 10px;width: 178px;
+}
+.Cg2{
+background: rgba(239, 207, 109, 0.79);
+text-align: center;
+border-left: 2px solid white;
+height: 60px;
+border-bottom: 2px solid white;
+width: 25%;
+margin: 0px;
+padding-top: 3px
 }

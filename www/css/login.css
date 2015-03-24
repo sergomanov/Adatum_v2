@@ -58,7 +58,7 @@ width: 100px;
 html,body,#cont
 {
 	height: 100%;
-	overflow: hidden;
+	
 	width: 100%;
 }
 body
@@ -67,7 +67,7 @@ body
 	cursor: default;
 	font-family: 'Cleanvertising';
 	font-size: 10px;
-	overflow: hidden;
+	
 }
 a
 {
@@ -81,9 +81,12 @@ img
 }
 .bg
 {
-	background: url('bg8.jpg') no-repeat center;
-	background-size: cover;
-	overflow: hidden;
+	
+	background: url(bg8.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
 }
 #cont
 {
@@ -91,11 +94,11 @@ img
 }
 .cont
 {
-	overflow: hidden;
+	
 }
 #top
 {
-	background: rgba(49,62,84,.8);
+	background: rgba(49,62,84,.5);
 	border-bottom: 1px solid rgba(255,255,255,.2);
 	border-top: 8px solid #4D80AB;
 	box-shadow: 0 5px 20px rgba(0,0,0,.65);
@@ -170,7 +173,7 @@ img
 	color: #fff;
 	font-size: 200%;
 	height: 100%;
-	overflow: hidden;
+	
 	padding-top: 60px;
 	position: absolute;
 	width: 50%;
@@ -191,7 +194,7 @@ img
 }
 #top #logo #short-about
 {
-	bottom: 89px;
+	  top: 181px;
 	position: absolute;
 }
 #top .form
@@ -444,7 +447,7 @@ font-size: 12px;
 	{
 		height: 100%;
 		left: 0;
-		overflow: scroll;
+	
 		top: 0;
 		width: 100%;
 	}
