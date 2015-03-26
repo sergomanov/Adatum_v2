@@ -66,6 +66,42 @@ function signal_run($address,$mode,$vale,$db_host,$db_login ,$db_passwd,$db_name
 	$con->set_charset("utf8"); // здесь
 	if (mysqli_connect_errno()) {  echo "-> Failed to connect to MySQL: " . mysqli_connect_error();}
 	
+	
+		//----------------------- Включение выключение ------------------------------------------------------------------------------------------------
+			$res_WE = mysqli_query($con,"SELECT * FROM commands WHERE mode = '$mode' AND address = '$address' AND controlir!=0");
+			if($res_WE) {   while($row_WE = mysqli_fetch_assoc($res_WE)) 
+			{
+				$timereal=time();
+				$nevs = $row_WE['id'];
+				$vale_WE = $row_WE['vale'];
+				$controlir_WE = $row_WE['controlir'];
+				$arre = explode(',',$vale_WE); $va1 = $arre[0];$va2 = $arre[1];$va3 = $arre[2];
+				
+				if($controlir_WE==1){
+				$arr = explode(',',$vale); $valem1 = $arr[0];$valem2 = $arr[1];$valem3 = $arr[2];
+						if($valem2==$va2 AND $valem3==$va3){
+							mysqli_query($con,"UPDATE commands SET laststate ='$valem1',unixtime ='$timereal' WHERE id = '$nevs'");	
+						}
+				}				
+				
+				if($controlir_WE==2){
+				$arr = explode(',',$vale); $valem1 = $arr[0];$valem2 = $arr[1];$valem3 = $arr[2];
+						if($valem1==$va1 AND $valem3==$va3){
+						mysqli_query($con,"UPDATE commands SET laststate ='$valem2',unixtime ='$timereal' WHERE id = '$nevs'");	
+						}
+				}		
+				
+				if($controlir_WE==3){
+				$arr = explode(',',$vale); $valem1 = $arr[0];$valem2 = $arr[1];$valem3 = $arr[2];
+						if($valem1==$va1 AND $valem2==$va2){
+						mysqli_query($con,"UPDATE commands SET laststate ='$valem3',unixtime ='$timereal' WHERE id = '$nevs'");
+						}				
+				}		
+
+			}  mysqli_free_result($res_WE); } 		
+		//----------------------- Включение выключение ------------------------------------------------------------------------------------------------
+	
+	
 		//----------------------- Строго равно ------------------------------------------------------------------------------------------------
 		$res4 = mysqli_query($con,"SELECT * FROM commands WHERE vale = '$vale' AND mode = '$mode' AND address = '$address' AND cond='0'");
 		if($res4) {   while($row4 = mysqli_fetch_assoc($res4)) 
@@ -73,7 +109,7 @@ function signal_run($address,$mode,$vale,$db_host,$db_login ,$db_passwd,$db_name
 			$nev = $row4['id'];
 			//echo $nev;
 			$timereal=time();
-			mysqli_query($con,"UPDATE commands SET laststate='$vale',unixtime ='$timereal' WHERE id = '$nev'");
+			mysqli_query($con,"UPDATE commands SET unixtime ='$timereal' WHERE id = '$nev'");
 			
 				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND FIND_IN_SET('$nev', conditions)");
 				if($G_conditions) {   while($G_conditions_row = mysqli_fetch_assoc($G_conditions)) 
@@ -95,7 +131,7 @@ function signal_run($address,$mode,$vale,$db_host,$db_login ,$db_passwd,$db_name
 			$nev = $row4['id'];
 			//echo $nev;
 			$timereal=time();
-			mysqli_query($con,"UPDATE commands SET laststate='$vale',unixtime ='$timereal' WHERE id = '$nev'");
+			mysqli_query($con,"UPDATE commands SET unixtime ='$timereal' WHERE id = '$nev'");
 			
 				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND FIND_IN_SET('$nev', conditions)");
 				if($G_conditions) {   while($G_conditions_row = mysqli_fetch_assoc($G_conditions)) 
@@ -117,7 +153,7 @@ function signal_run($address,$mode,$vale,$db_host,$db_login ,$db_passwd,$db_name
 			$nev = $row4['id'];
 			//echo $nev;
 			$timereal=time();
-			mysqli_query($con,"UPDATE commands SET laststate='$vale',unixtime ='$timereal' WHERE id = '$nev'");
+			mysqli_query($con,"UPDATE commands SET unixtime ='$timereal' WHERE id = '$nev'");
 			
 				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND FIND_IN_SET('$nev', conditions)");
 				if($G_conditions) {   while($G_conditions_row = mysqli_fetch_assoc($G_conditions)) 

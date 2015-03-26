@@ -150,10 +150,9 @@ if (isset($_POST['edit'])) {
 }
 
 ?>
-		
 <!DOCTYPE html>
 <html>
-	<head>		<?php	 include 'head.php'; ?>	</head>
+<head><?php	 include 'head.php'; ?>	</head>
 <body class="white">
 <form name="myForm" method="post" >
 	   <div  class="s2-content" id="paddi" style="padding-top: 70px;">
@@ -173,9 +172,10 @@ if (isset($_POST['edit'])) {
 <div class="profile row">
 <br>
     <h2 style="text-align:center; padding-bottom: 30px;"> Управление заданиями </h2>
-<?php	if($errors!=NULL){ echo '<div class="alert alert-warning">'.$errors.'</div>';} 
-echo $G_calendar;
-?>	
+	
+<?php	if($errors!=NULL){ echo '<div class="alert alert-warning">'.$errors.'</div>';} ?>	
+
+<input id="calwor" type="hidden" value="<?php echo trim($G_calendar);?>">
 
   <div id="calendar" style="<?php  if($G_calendar==0){echo "display: none;";}else{echo "display: block;";}  ?> ">
   
@@ -417,10 +417,10 @@ echo $G_calendar;
              <p>Таймер(секунды) </p>
 
 
-<div class="input-group">
-  <span id="q-minus" class="input-group-addon btn">-</span>
-  <input type="text" class="form-control" value="1" name="timer" id="timer">
-  <span id="q-plus" class="input-group-addon btn">+</span>
+<div class="input-group zol conteiner1" >
+	<span class="input-group-addon btn dec"><i class="icon-minus"></i></span>
+		<input type="text" class="form-control counter" value="1" name="timer" id="timer">
+	<span class="input-group-addon btn inc"><i class="icon-plus"></i></span>
 </div>
 
  </div>
@@ -653,6 +653,14 @@ $Mtimeout=$mIDDN['timeout']; if($Mtimeout!=NULL){   $Stimeout = date("H:i:s",$Mt
 	</form>
 	</body>
 </html>
+
+<script>
+$('.conteiner1').IncrementBox({						
+      timeout: 75,  //скорость инкримента
+      cursor: false						
+    });
+</script>
+
 <script type="text/javascript">
 		function clin(){
 			document.myForm.edit.disabled = true;
@@ -675,12 +683,12 @@ $Mtimeout=$mIDDN['timeout']; if($Mtimeout!=NULL){   $Stimeout = date("H:i:s",$Mt
 <script type="text/javascript">
 function change()
 {
-if(document.getElementById('but_cal').value=='1'){
-document.getElementById('but_cal').value='0';	
+if(document.getElementById('calwor').value=='1'){
+document.getElementById('calwor').value='0';	
 $.ajax({type: 'POST',url: 's-calviewfast.php',data: 'value=0'});
 document.getElementById('but_cal').innerHTML='<i class="icon-calendar-6"></i> Скрыть календарь';
 } else {
-document.getElementById('but_cal').value='1';
+document.getElementById('calwor').value='1';
 $.ajax({type: 'POST',url: 's-calviewfast.php',data: 'value=1'});
 document.getElementById('but_cal').innerHTML='<i class="icon-calendar-6"></i> Показать календарь';
 }

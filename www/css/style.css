@@ -1414,12 +1414,13 @@ color: #000000;
   color: #ffffff;
 }
 
-.Dra{width: 61px !important; ; height: 64px !important;  cursor: pointer;}
+.Dra{background: rgba(255, 255, 255, 0.81); position: absolute; width: 61px !important; ; height: 64px !important;  cursor: pointer;}
 
 .inpZ{
 width: 40px;
 height: 15px;
 visibility: hidden;
+margin: -10px;
 font-size: 9px;}
 
 .texH{
@@ -1533,6 +1534,10 @@ z-index: 999;
 background: rgba(255, 255, 255, 0.95);border: 1px solid #E7D5D2;width: 275px;height: 185px;margin: -1px;position: absolute;padding: 3px;
 }
 
+.ButtM{
+background: rgba(255, 255, 255, 0.95);border: 1px solid #E7D5D2;width: 275px;margin: -1px;position: absolute;padding: 3px;
+}
+
 .polezn
 {
 border-radius: 20px;  border: 1px solid rgb(216, 216, 216); vertical-align:middle; text-align:center;position: absolute;z-index: 1;font-size: 10px;width: 178px;
@@ -1546,4 +1551,12 @@ border-bottom: 2px solid white;
 width: 25%;
 margin: 0px;
 padding-top: 3px
+}
+.zol{
+  margin: 6px 3px 0px 3px;
+}
+.commen{
+  margin: 0px 0px -4px 5px;
+  font-size: 11px;
+  color: #7C7777;
 }

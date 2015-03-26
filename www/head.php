@@ -45,7 +45,11 @@
 <script src="js/jquery-ui-timepicker-addon.js"></script>
 <script src="js/jquery-ui-timepicker-ru.js"></script>
 <script language="javascript" type="text/javascript" src="js/adatum.js"></script>
+<script type="text/javascript" src="js/jquery.IncrementBox.js"></script>
 
 <div id="page-preloader"><i class="icon-spin6 animate-spin" style="  color: #fff;  font-size: 60px;   margin: -30px 0 0 -30px; position: absolute;  left: 50%;  top: 50%;"></i></div>
 <?php	include_once  'runtime.php'; ?>
-<?php	include_once 'statistic'; ?>
+<?php	include_once 'statistic'; 
+//ini_set("display_errors",1);error_reporting(E_ALL);
+ini_set('display_errors','Off');
+?>

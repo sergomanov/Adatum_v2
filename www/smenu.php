@@ -197,15 +197,9 @@ text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bo
 				      if ($result=mysqli_query($con,"SELECT * FROM developments WHERE mode='$mode4' AND address='$address'"))  {  $rowcount=mysqli_num_rows($result);  }
 				   
 			
-				   
+				   $ico5="icon-help-circled"; $symbol5="???"; $namevalue1_5="Неизвестный параметр";
 				   $resulte5 = mysqli_query($con,"SELECT * FROM type WHERE mode='$mode4'");	
-				   while($rowe5 = mysqli_fetch_assoc($resulte5)) { 
-				   $ico5=$rowe5['ico']; 
-				   $color5=$rowe5['color']; 
-				   $symbol5=$rowe5['symbol']; 
-				   $type5=$rowe5['type'];
-				   $namevalue1_5=$rowe5['namevalue1'];
-				   }
+				   while($rowe5 = mysqli_fetch_assoc($resulte5)) {  $ico5=$rowe5['ico'];    $color5=$rowe5['color'];    $symbol5=$rowe5['symbol'];    $type5=$rowe5['type'];	   $namevalue1_5=$rowe5['namevalue1'];	   }
 				  
 				  if($type5==1 AND $rowcount>5){
 

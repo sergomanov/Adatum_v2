@@ -32,22 +32,7 @@ width: 100px;
     border-left: solid 1px #aaa;
     background-color: #eee;
 }
-@font-face
-{
-	font-family: 'Cleanvertising';
-	font-style: normal;
-	font-weight: 300;
-	src: local('Cleanvertising'),local('Cleanvertising Light'),url('/css/font/cleanvel.woff') format('woff'),url('/css/font/cleanvel.ttf') format('truetype');
-	src: url('/css/font/cleanvel.eot');
-}
-@font-face
-{
-	font-family: 'Cleanvertising';
-	font-style: normal;
-	font-weight: 900;
-	src: local('Cleanvertising'),local('Cleanvertising Black'),url('/css/font/cleanveb.woff') format('woff'),url('/css/font/cleanveb.ttf') format('truetype');
-	src: url('/css/font/cleanveb.eot');
-}
+
 *
 {
 	border: 0 solid #eee;
@@ -58,14 +43,14 @@ width: 100px;
 html,body,#cont
 {
 	height: 100%;
-	
+	font-family: 'Open Sans',Helvetica,Arial,sans-serif;
 	width: 100%;
 }
 body
 {
 	color: #000;
 	cursor: default;
-	font-family: 'Cleanvertising';
+	font-family: 'Open Sans',Helvetica,Arial,sans-serif;
 	font-size: 10px;
 	
 }
@@ -194,7 +179,7 @@ img
 }
 #top #logo #short-about
 {
-	  top: 181px;
+	  top: 200px;
 	position: absolute;
 }
 #top .form
@@ -261,7 +246,7 @@ font-size: 12px;
 	box-shadow: 0 1px 2px rgba(0,0,0,.3);
 	color: #000;
 	display: inline-block;
-	font-family: 'Cleanvertising';
+	font-family: 'Open Sans',Helvetica,Arial,sans-serif;
 	font-size: 140%;
 	font-weight: normal;
 	margin-left: 1px;

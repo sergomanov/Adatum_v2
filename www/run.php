@@ -207,13 +207,15 @@ header("Location: run.php");
 				    <th data-class="expand"> </th>
                     <th data-class="expand">Наименование</th>
 				    <th data-hide="phone,tablet" style="width:130px">MAC устройства</th>
-				    <th data-hide="phone,tablet">Действие (условие)</th>		
+				    <th data-hide="phone,tablet">Описание</th>		
 					<?php if($G_id_user==1){ ?> <th data-hide="tablet">Пользователь</th><?php } ?>					
                 </tr>
 </thead>
 
 <tbody>
 <?php
+$timein=NULL;
+$timeout=NULL;
 if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM commands  ORDER BY id DESC");}
 else { $IDDN = mysqli_query($con,"SELECT * FROM commands  WHERE id_user = '$G_id_user' OR id_user = 1 ORDER BY id DESC");}
 if($IDDN) { while($row= mysqli_fetch_assoc($IDDN)) {
@@ -246,13 +248,6 @@ $Str = mysqli_query($con,"SELECT * FROM type WHERE mode='$rowmode' AND id_user =
 				 else {$resico = mysqli_query($con,"SELECT * FROM `type` WHERE mode ='$rowmode' AND (id_user = '$G_id_user' OR id_user = '0')");}
 	 if($resico){while($rowico = mysqli_fetch_assoc($resico)){$rowicon=$rowico['ico']; $rowcolor=$rowico['color'];?>
 	 <i class="<?php echo $rowicon; ?> text-success " style="font-size: 18px; color: <?php	echo $rowcolor; ?> !important;"></i> <?php }}  ?>
-
-     
-<?php if($row['controlir']==0){?> <i class="icon-eye-off" style="font-size: 18px; color: #E4E4E4 !important;"></i> <?php }  ?>
-<?php if($row['controlir']!=0){?><i class="icon-eye" style="font-size: 18px; color: #6851D2 !important;"></i> <?php }  ?>
-			
-	 
-	 
 	  
 	 </td>
 
@@ -287,9 +282,15 @@ $Str = mysqli_query($con,"SELECT * FROM type WHERE mode='$rowmode' AND id_user =
 	<?php	echo $row['vale']; ?>
 
 	<br><span style="color: #2271D8;">
-	<?php	if($row['unixtime']!=0){echo "Выполнялось: ".date("Y-m-d H:m:s", $row['unixtime']+$timezone); }  else { echo "Не выполнялось";}   ?> 
-	<br><span style="color: #A4CA2A;"><?php	if($row['laststate']!=NULL){echo "Последнее значение: ".$row['laststate']; }?></span> 
+	<?php	if($row['unixtime']!=0){echo "Принято: ".date("Y-m-d H:m:s", $row['unixtime']+$timezone); }  else { echo "Сигнала небыло";}   ?> 
 
+	
+	
+	<?php if($row['controlir']!=0 AND $row['laststate']==1){ ?><br><span class="label label-success">Включено</span><?php }  ?>
+	<?php if($row['controlir']!=0 AND $row['laststate']==0){ ?><br><span class="label label-info">Отключено</span><?php }  ?>
+			
+	<?php if($row['controlir']==0){ ?><br><span class="label label-default">Нет контроля</span>	<?php }  ?>
+	
 	</td>
 
 <?php if($G_id_user==1){ ?> 
