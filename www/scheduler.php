@@ -1,7 +1,7 @@
 <?php	
  include 's-head.php';
  include 'adatum.class.php';
- $errors=NULL;
+$errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
   
 if (isset($_POST['chbox'])) 
 	{ 

@@ -8,7 +8,7 @@
 		<?php	
 include 'head.php'; 
  
-$errors=NULL;
+$errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
 
 $rtype = mysqli_query($con,"SELECT * FROM namedev WHERE id_user='$G_id_user' "); 
 while($rowr = mysqli_fetch_assoc($rtype)) {	$resadr="'".$rowr['address']; $resp=$resadr."',".$resp;}

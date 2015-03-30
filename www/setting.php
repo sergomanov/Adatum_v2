@@ -2,7 +2,7 @@
  include 's-head.php';
  include 'adatum.class.php';
  
- 
+ $errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
 
 if (isset($_POST['deluser'])) {
 	$box_array = $_REQUEST['box']; 
@@ -26,7 +26,7 @@ header("Location: setting.php");
  
  if (isset($_POST['edituser'])) {
 
-$errors=0;
+
 
  $unixtime=time();
  

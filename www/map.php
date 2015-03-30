@@ -166,15 +166,15 @@ function woldiv<?php echo $eid;?>(){
 </script>
 
 <?php
-$host = "77.222.61.85"; //ваш сервер 
-$connect = ftp_connect($host); 
-$user = "letooru_ar"; //ваш логин 
-$password = "12Admin12"; //ваш пароль 
-$res = ftp_login($connect,$user,$password); 
-$get_file = "DCS-931L.jpg"; //файл который нам нужен 
-$save_file = "DCS-931L.jpg"; //имя под которым сохраняем 
-ftp_get($connect,$get_file,$save_file,FTP_BINARY); //выполняем функцию ftp_get 
-fclose($fp); 
+//$host = "77.222.61.85"; //ваш сервер 
+//$connect = ftp_connect($host); 
+//$user = "letooru_ar"; //ваш логин 
+//$password = "12Admin12"; //ваш пароль 
+//$res = ftp_login($connect,$user,$password); 
+//$get_file = "DCS-931L.jpg"; //файл который нам нужен 
+//$save_file = "DCS-931L.jpg"; //имя под которым сохраняем 
+//ftp_get($connect,$get_file,$save_file,FTP_BINARY); //выполняем функцию ftp_get 
+//fclose($fp); 
 ?> 
 
 
