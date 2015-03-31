@@ -1,9 +1,19 @@
 <?php	
- include_once 'conf.php';
+$error=NULL;
+include_once "mysql";
+$con=mysqli_connect($db_host,$db_login,$db_passwd,$db_name);
+if (mysqli_connect_errno() ) { header("Location: install.php"); }
+
+
+include_once 'conf.php';
 $r='';
 $auth = new auth();
 
 if ($auth->check()) {header("Location: main.php");} 
+
+
+
+
 
 
 //~ authorization
@@ -30,13 +40,17 @@ if (isset($_GET['exit'])) $auth->exit_user();
       <meta name="description" content="Открытая система автоматизации помещений">
 	  <link rel="stylesheet" href="css/fontello.css">
 	  <link rel="stylesheet" type="text/css" media="all" href="css/googlefont.css" />
-	   <link rel="stylesheet" href="css/login.css">
+	  <link rel="stylesheet" href="css/login.css">
+	   
    </head>
    <body class="bg">
       <div id="cont" class="cont">
+	  
+	
+		
          <div id="top">
             <div id="logo">
-<a href="#" class="logo" style="margin: 24px 0 0 56px;  position: absolute;">
+<a href="#" class="logo" style="bottom: 100px;  margin: 24px 0 0 56px; position: absolute;">
 <i style="    font-size: 72px;    position: absolute;    color: #00ADFF;    font-style: normal;    font-weight: 900;    margin: 9px 0 0 14px;    z-index: 1;" class="icon-home-1"></i>	
 <i style="    font-size: 57px;    position: absolute;    color: #FF0000;    font-style: normal;    font-weight: 900;    margin: 37px 0 0 47px;    z-index: 2;">T</i>
 <i style="    font-size: 70px;    position: absolute;    color: #FFFFFF;    font-style: normal;    font-weight: 900;    margin: 30px 0 0 43px;    z-index: 1;">T</i>
@@ -45,13 +59,15 @@ if (isset($_GET['exit'])) $auth->exit_user();
                <div class="slogan">Доступная автоматизация</div>           
                <div id="short-about">Открытая система автоматизации помещений</div>
             </div>
+			  	<?php	if($error!=NULL){ echo '<div class="alert alert-warning">'.$error.'</div>';} ?>	
+			
 <?php
 
 //~ Check auth
 if ($auth->check()) {
-	$r.='Hello '.$_SESSION['login_user'];
+	//$r.='Hello '.$_SESSION['login_user'];
 } else {
-	if (isset($error)) $r.=$error.'. <a href="recovery.php">recovery password</a><br/>';
+	//if (isset($error)) $r.=$error.'. <a href="recovery.php">recovery password</a><br/>';
 
 	$r.='
 	 <form class="form -js-form -js-form-login"  method="post" style="display: block;">

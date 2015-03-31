@@ -5,41 +5,24 @@
  ?>
 <!DOCTYPE html>
 <html>
-	<head>
-		<?php	 include 'head.php'; ?>
-	</head>
+	<head><?php	 include 'head.php'; ?></head>
 	
-	<body class="white">
+<body class="white">
 <form method="POST" action="">
 	   <div  class="s2-content" id="paddi" style="padding-top: 70px;">
-
 				<?php	 include 'topmenu.php'; ?>
-				<?php	 include 'smenu.php'; ?>	
-					
+				<?php	 include 'smenu.php'; ?>					
 <div class="s2-map " id="map">
-
 <div class="right-area-content -js-right-area-content">
-
     <div id="settings">
-        <header>
-
-            <h1 style="padding-left: 50px;">История	</h1>
-			
-			
-        </header>
+        <header><h1 style="padding-left: 50px;">История	</h1></header>
 			<?php	if($errors!=NULL){ echo '<div class="alert alert-warning">'.$errors.'</div>';} ?>	
-			<?php	if($G_id_user==1){ echo '<div class="alert alert-warning"> Вы вошли под учетной записью Администратора вам видны все события.</div>';} ?>	
-	
-				
-									
-									
-      <div class="title">Журнал датчиков :</div>
-	  
+			<?php	if($G_id_user==1){ echo '<div class="alert alert-warning"> Вы вошли под учетной записью Администратора вам видны все события.</div>';} ?>						
+    <div class="title">Журнал датчиков :</div>
 	<div class="col-xs-12"><div id="example2_filter" class="dataTables_filter"><label>Поиск: <input type="text" name="search" class="form-control input-sm" value="<?php if(isset($_POST['search'])){echo $_POST['search'];} ?>" ></label></div></div>
-	
-	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;  margin: 17px 0px 0px 5px;"><i class="icon-search-4"></i> Поиск</button> 
-	
-	
+
+	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;   position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
+
 <section id="settings-notifications">
 <?php
 $rtype = mysqli_query($con,"SELECT * FROM namedev WHERE id_user='$G_id_user' "); 

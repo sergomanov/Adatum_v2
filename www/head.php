@@ -19,7 +19,7 @@
 <link href="css/bootstrap-formhelpers.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/fontello.css">
 <link rel="stylesheet" href="css/jquery-ui.css">
-<link rel="stylesheet" href="./feditor/default.css" />
+<link rel="stylesheet" href="css/kindeditor.css" />
 <link rel="stylesheet" href="css/animation.css">
 <link rel="stylesheet" type="text/css" media="all" href="css/googlefont.css" />
 <link rel="stylesheet" href="css/datatables.responsive.css"/>

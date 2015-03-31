@@ -1,7 +1,8 @@
 <?php	
  include 's-head.php';
  include 'adatum.class.php';
- 
+ include 's-lib.php'; 
+   
  $errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
 
 if (isset($_POST['deluser'])) {
@@ -306,7 +307,11 @@ style.display = "none";
     <div class="mainInfo form-horizontal col-md-9" autocomplete="off">
       
        <button id="del" disabled="disabled" onclick="return confirm('Вы действительно хотите удалить псевдонимы устройств?')" type="submit" class="btn btn-sm btn-small btn-danger"  name="deluser" title="Удалить записи"><i class=" icon-trash"></i> Удалить выделенные записи</button>  
-      
+  	<div class="col-xs-12"><div id="example2_filter" class="dataTables_filter"><label>Поиск: <input type="text" name="search" class="form-control input-sm" value="<?php if(isset($_POST['search'])){echo $_POST['search'];} ?>" ></label></div></div>
+	
+	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;    position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
+	
+    
 		        <section id="settings-notifications">
 			   <table id="example2" class="example table table-striped table-bordered" cellspacing="0">
                                         <thead>
@@ -318,10 +323,19 @@ style.display = "none";
                                         </thead>
                                         <tbody>
 <?
-if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM users ORDER BY id_user DESC");}
-			else {$IDDN = mysqli_query($con,"SELECT * FROM users WHERE id_user = '$G_id_user' ORDER BY id_user DESC");}
-
-if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
+//if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM users ORDER BY id_user DESC");}
+//			else {$IDDN = mysqli_query($con,"SELECT * FROM users WHERE id_user = '$G_id_user' ORDER BY id_user DESC");}
+//if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
+	
+$_PAGING = new Paging($con);
+$search = $_POST['search'];
+if($G_id_user==1){
+$r = $_PAGING->get_page( "SELECT * FROM users WHERE (login_user LIKE '%$search%' OR mail_user LIKE '%$search%') ORDER BY id_user DESC" ); 
+	} else {
+$r = $_PAGING->get_page( "SELECT * FROM users WHERE (login_user LIKE '%$search%' OR mail_user LIKE '%$search%') AND id_user = '$G_id_user' ORDER BY id_user DESC" ); 
+	}
+	while($mIDDN = $r->fetch_assoc())
+{
 ?>
 			
 <tr>
@@ -382,11 +396,20 @@ function clin(){
 											  
                                             </tr>
 											
-										<?php  }}	?>													
+<?php  }	?>													
 		  </tbody>
 			</table>									
         </section>
-	
+	<div class="dataTables_info hidden-xs" id="example_info"><?php echo $_PAGING->get_result_text().' записей';?></div>
+
+<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+	<ul class="pagination">
+		<li class="paginate_button previous" aria-controls="example2" tabindex="0" id="example2_previous"><a href="?p=1"><<</a></li>
+		<li class="paginate_button " aria-controls="example2" tabindex="0"><?php echo  $_PAGING->get_prev_page_link();?></li>
+		<?php echo $_PAGING->get_page_links();?>
+		<li class="paginate_button next disabled" aria-controls="example2" tabindex="0" id="example2_next"><?php echo $_PAGING->get_next_page_link();?></li>
+	</ul>
+</div>
 
 
 

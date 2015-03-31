@@ -1,6 +1,7 @@
 <?php
 $db_host   = "localhost";
-$db_login  = "login";
-$db_passwd = "pass";
-$db_name   = "db_name";
+$db_login   = "root";
+$db_passwd   = "password";
+$db_name   = "adatum";
+$secret_key ="adatum";
 ?>

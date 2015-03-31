@@ -1,6 +1,7 @@
 <?php	
  include 's-head.php';
  include 'adatum.class.php';
+  include 's-lib.php'; 
  ?>
 <!DOCTYPE html>
 <html>
@@ -116,7 +117,7 @@ echo "Включено $days дней $hours часов $mins минут и $sec
 	
 		   
 		
-<table id="example" class=" table table-striped table-bordered" cellspacing="0">
+<table id="exampl5e" class=" table table-striped table-bordered" cellspacing="0">
                                         <thead>
                                             <tr>
                                              <th width="30" data-class="expand"></th>
@@ -128,10 +129,20 @@ echo "Включено $days дней $hours часов $mins минут и $sec
                                             </tr>
                                         </thead>
 	<tbody>
-	<?php	$IDDN = mysqli_query($con,"SELECT * FROM run WHERE address IN ($resp) ORDER BY id DESC");	if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {	?>		
+	<?php
+	
+$_PAGING = new Paging($con);
+$search = $_POST['search'];
+$r = $_PAGING->get_page( "SELECT * FROM run WHERE address IN ($resp) ORDER BY id DESC" ); 
+while($mIDDN = $r->fetch_assoc())
+{
+//	$IDDN = mysqli_query($con,"SELECT * FROM run WHERE address IN ($resp) ORDER BY id DESC");	if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {	
+	
+	
+	?>		
 		<tr>
 			<td>
-			<input onchange="document.getElementById('del').disabled = false;" id="checkbox<?php	echo $mIDDN['id']; ?>" type="checkbox"  name='box[]' value=<?php	echo $mIDDN['id']; ?>>
+			<input id="checkbox<?php	echo $mIDDN['id']; ?>" type="checkbox"  name='box[]' value=<?php	echo $mIDDN['id']; ?>>
 			</td>	
 				  
 			<td>
@@ -146,13 +157,23 @@ echo "Включено $days дней $hours часов $mins минут и $sec
 			<td class="v-align-middle"><span class="muted"><?php	echo date("Y-m-d H:i", $mIDDN['unixtime']+$timezone);      ?></span></td>
 													  
 		</tr>
-	<?php  }}	?>																				
+	<?php  }	?>																				
 	</tbody>
 </table>	
 
 			
 
 </section>
+<div class="dataTables_info hidden-xs" id="example_info"><?php echo $_PAGING->get_result_text().' записей';?></div>
+
+<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+	<ul class="pagination">
+		<li class="paginate_button previous" aria-controls="example2" tabindex="0" id="example2_previous"><a href="?p=1"><<</a></li>
+		<li class="paginate_button " aria-controls="example2" tabindex="0"><?php echo  $_PAGING->get_prev_page_link();?></li>
+		<?php echo $_PAGING->get_page_links();?>
+		<li class="paginate_button next disabled" aria-controls="example2" tabindex="0" id="example2_next"><?php echo $_PAGING->get_next_page_link();?></li>
+	</ul>
+</div>
 		
 </div></div></div>
 	
@@ -164,7 +185,15 @@ echo "Включено $days дней $hours часов $mins минут и $sec
 	</body>
 </html>
 
-
+<script type="text/javascript">
+var count = 0;
+$(function() {  count = $('input[type=checkbox]:checked').length; displayCount();
+ $('input[type=checkbox]').bind('click' , function(e, a) {if (this.checked) { count += a ? -1 : 1;} else { count += a ? 1 : -1;} displayCount();    });});
+function displayCount() {
+	if(count>0){document.getElementById('del').disabled = false;}	
+	if(count==0){document.getElementById('del').disabled = true;}
+	}
+</script>
 
 <script>
 window.onload=function(){

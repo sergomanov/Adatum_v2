@@ -1,7 +1,9 @@
 <?php	
  include 's-head.php';
  include 'adatum.class.php';
-$errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
+ include 's-lib.php'; 
+
+ $errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
   
 if (isset($_POST['chbox'])) 
 	{ 
@@ -511,9 +513,12 @@ if (isset($_POST['edit'])) {
 <button disabled="disabled" id="actpr" type="submit" class="btn  btn-primary  btn-sm btn-small"  name="actpr"  title="actpr"><i class=" icon-link"></i> Активировать правила</button>	
 <button disabled="disabled" id="deactpr" type="submit" class="btn   btn-sm btn-small"  name="deactpr"  title="deactpr"><i class="icon-linkalt"></i> Деактивировать правила</button>		 
 							 
-	 
+	 	<div class="col-xs-12"><div id="example2_filter" class="dataTables_filter"><label>Поиск: <input type="text" name="search" class="form-control input-sm" value="<?php if(isset($_POST['search'])){echo $_POST['search'];} ?>" ></label></div></div>
+	
+	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;    position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
+	
 <section id="settings-notifications">
-			   <table id="example2" class="example table table-striped table-bordered" cellspacing="0">
+			   <table id="examp8le2" class="example table table-striped table-bordered" cellspacing="0">
                                         <thead>
                                             <tr>
 												<th data-class="expand">№</th>
@@ -527,9 +532,21 @@ if (isset($_POST['edit'])) {
                                         </thead>
                                         <tbody>
 <?php
-	if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM scheduler WHERE type IN ('1','2','4','5','6','7','8')");}
-	else { $IDDN = mysqli_query($con,"SELECT * FROM scheduler WHERE type IN ('1','2','4','5','6','7','8') AND id_user = '$G_id_user'");}
-	if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
+$_PAGING = new Paging($con);
+$search = $_POST['search'];
+if($G_id_user==1){
+$r = $_PAGING->get_page( "SELECT * FROM scheduler WHERE type IN ('1','2','4','5','6','7','8') AND (id LIKE '%$search%' OR name LIKE '%$search%')" ); 
+}	else {
+$r = $_PAGING->get_page( "SELECT * FROM scheduler WHERE type IN ('1','2','4','5','6','7','8') AND id_user = '$G_id_user' AND (id LIKE '%$search%' OR name LIKE '%$search%')" ); 
+}
+
+while($mIDDN = $r->fetch_assoc())
+{
+	
+
+//	if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM scheduler WHERE type IN ('1','2','4','5','6','7','8')");}
+//	else { $IDDN = mysqli_query($con,"SELECT * FROM scheduler WHERE type IN ('1','2','4','5','6','7','8') AND id_user = '$G_id_user'");}
+//	if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
 	$timein=$mIDDN['timein'];  if($timein!=NULL){$timein=date('Y-m-d / H:i:s',$timein);}
 	$timeout=$mIDDN['timeout'];  if($timeout){$timeout=date('Y-m-d / H:i:s',$timeout);}
 	$M_id_user = $mIDDN['id_user'];
@@ -629,13 +646,22 @@ $Mtimeout=$mIDDN['timeout']; if($Mtimeout!=NULL){   $Stimeout = date("H:i:s",$Mt
 	
 									  
 </tr>						
-<?php  }}	?>													
+<?php  }	?>													
 		  </tbody>
 			</table>	
 
 			
         </section>
-	
+	<div class="dataTables_info hidden-xs" id="example_info"><?php echo $_PAGING->get_result_text().' записей';?></div>
+
+<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+	<ul class="pagination">
+		<li class="paginate_button previous" aria-controls="example2" tabindex="0" id="example2_previous"><a href="?p=1"><<</a></li>
+		<li class="paginate_button " aria-controls="example2" tabindex="0"><?php echo  $_PAGING->get_prev_page_link();?></li>
+		<?php echo $_PAGING->get_page_links();?>
+		<li class="paginate_button next disabled" aria-controls="example2" tabindex="0" id="example2_next"><?php echo $_PAGING->get_next_page_link();?></li>
+	</ul>
+</div>
     </div>
   
 	
@@ -685,11 +711,11 @@ function change()
 {
 if(document.getElementById('calwor').value=='1'){
 document.getElementById('calwor').value='0';	
-$.ajax({type: 'POST',url: 's-calviewfast.php',data: 'value=0'});
+$.ajax({type: 'POST',url: 'post.scheduler.php',data: 'value=0'});
 document.getElementById('but_cal').innerHTML='<i class="icon-calendar-6"></i> Скрыть календарь';
 } else {
 document.getElementById('calwor').value='1';
-$.ajax({type: 'POST',url: 's-calviewfast.php',data: 'value=1'});
+$.ajax({type: 'POST',url: 'post.scheduler.php',data: 'value=1'});
 document.getElementById('but_cal').innerHTML='<i class="icon-calendar-6"></i> Показать календарь';
 }
 

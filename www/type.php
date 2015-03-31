@@ -1,8 +1,31 @@
 <?php	
  include 's-head.php';
  include 'adatum.class.php';
+ include 's-lib.php'; 
  
 $errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
+
+if (isset($_POST['testdata'])) {
+	
+mysqli_query($con,"
+INSERT INTO `type` (`id`, `mode`, `name`, `namevalue1`, `namevalue2`, `namevalue3`, `id_user`, `type`, `ico`, `symbol`, `regim`, `color`, `tchart`, `control`) VALUES
+(NULL, 'LUM', 'Освещённость', 'Овещённость', '', '', '$G_id_user', 1, 'icon-lamp', 'L', 1, '#78cf50', 0, 0),
+(NULL, 'TEM', 'Температура', 'Температура', '', '', '$G_id_user', 1, ' icon-temperatire', 'С°', 1, '#c23c2a', 0, 0),
+(NULL, 'HUM', 'Влажность', 'Влажность', '', '', '$G_id_user', 1, 'icon-tint', '%', 1, '#3f2ac2', 0, 0),
+(NULL, 'P', 'Давление', 'Давление', '', '', '$G_id_user', 1, 'icon-hammer', 'Па', 1, '#9c7d30', 0, 0),
+(NULL, 'MU', 'Звуковой сигнал', 'Частота сигнала', 'Длительность', '', '$G_id_user', 2, 'icon-bullhorn', '', 3, '#435cd9', 0, 0),
+(NULL, 'MIC', 'Уровень шума', 'Уровень шума', '', '', '$G_id_user', 1, 'icon-sound-1', '', 1, '#23222b', 0, 0),
+(NULL, 'IR', 'ИК Пульт', 'Производитель', 'Код устройства', 'Частота шины', '$G_id_user', 3, 'icon-keyboard', '', 0, '', 0, 0),
+(NULL, 'KEY', 'Нажатие кнопки', 'Номер реле', 'Состояние устройства (ON , OFF, Яркость от 0 до 10000)', 'Длительность ', '$G_id_user', 3, 'icon-keyboard', '', 0, '', 1, 0),
+(NULL, 'LED', 'Световая сигнализация', 'Длительность(милсек)', 'Количество', '', '$G_id_user', 2, 'icon-lamp-1', '', 3, '#bbc452', 0, 0),
+(NULL, 'iBN', 'iButton ключ', 'Тип ключа', 'Код устройства', '', '$G_id_user', 2, 'icon-key', '', 1, '#2ec7ab', 1, 0),
+(NULL, 'PIR', 'Движение', 'Движение', '', '', '$G_id_user', 1, 'icon-ticket-2', '', 1, '', 0, 0),
+(NULL, 'RF', 'Радиомодуль 315Мгц.', 'Код устройства', 'Частота шины', 'Длительность сигнала', '$G_id_user', 3, 'icon-signal-3', '', 0, '', 0, 0);
+");
+header("Location: type.php");
+}
+
+
 
 if (isset($_POST['addtype'])) {
 
@@ -210,10 +233,26 @@ minLength: 0,delay: 0});$('#modetype').bind('focus', function() {if ($(this).val
     <div class="mainInfo form-horizontal col-md-9" autocomplete="off">
       
 <button id="del" disabled="disabled" onclick="return confirm('Вы действительно хотите удалить псевдонимы устройств?')" type="submit" class="btn btn-sm btn-danger btn-small"  name="deltype"title="Удалить записи"><i class=" icon-trash"></i> Удалить выделенные записи</button> 
+
+<?php
+if ($result=mysqli_query($con,"SELECT * FROM type WHERE id_user = '$G_id_user'"))  {
+  $rowcount=mysqli_num_rows($result);  
+}
+if($rowcount==0){
+?>
+
+<button id="testdata" type="submit" class="btn btn-sm btn-danger btn-small"  name="testdata"  title="Добавить типы датчиков по умолчанию" style="background: #4386A0; border-color: #38CDB1;"><i class="icon-database-3"></i> Добавить типы датчиков по умолчанию</button> 
+<?php } ?>
+
+
+
 	
-      
+      	<div class="col-xs-12"><div id="example2_filter" class="dataTables_filter"><label>Поиск: <input type="text" name="search" class="form-control input-sm" value="<?php if(isset($_POST['search'])){echo $_POST['search'];} ?>" ></label></div></div>
+	
+	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;   position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
+	
 <section id="settings-notifications">
-<table id="example4" class="example table table-striped table-bordered" cellspacing="0">
+<table id="example84" class="example table table-striped table-bordered" cellspacing="0">
 	<thead>
 		<tr>
 			<th data-class="expand" style="width: 30px;">  </th>
@@ -226,9 +265,18 @@ minLength: 0,delay: 0});$('#modetype').bind('focus', function() {if ($(this).val
 	</thead>
 <tbody>
 <?php
-if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM type");}
-			else {$IDDN = mysqli_query($con,"SELECT * FROM type WHERE id_user = '$G_id_user' OR id_user = '0'");}
-if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
+$_PAGING = new Paging($con);
+$search = $_POST['search'];
+if($G_id_user==1){
+$r = $_PAGING->get_page( "SELECT * FROM type WHERE (mode LIKE '%$search%' OR name LIKE '%$search%' OR namevalue1 LIKE '%$search%' OR namevalue2 LIKE '%$search%' OR namevalue2 LIKE '%$search%') " ); 	
+	} else {
+$r = $_PAGING->get_page( "SELECT * FROM type WHERE (id_user = '$G_id_user' OR id_user = '0') AND (mode LIKE '%$search%' OR name LIKE '%$search%' OR namevalue1 LIKE '%$search%' OR namevalue2 LIKE '%$search%' OR namevalue2 LIKE '%$search%') " ); 
+	}
+while($mIDDN = $r->fetch_assoc())
+{
+//if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM type");}
+//			else {$IDDN = mysqli_query($con,"SELECT * FROM type WHERE id_user = '$G_id_user' OR id_user = '0'");}
+//if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
 $M_id_user = $mIDDN['id_user'];
 ?>
 			
@@ -299,11 +347,22 @@ function getText3<?php echo $mIDDN['id'];?>(el){
 </script>
 </tr>
 											
-<?php  }}	?>													
+<?php  }	?>													
 </tbody>
 </table>									
 </section>
 	
+	<div class="dataTables_info hidden-xs" id="example_info"><?php echo $_PAGING->get_result_text().' записей';?></div>
+
+<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+	<ul class="pagination">
+		<li class="paginate_button previous" aria-controls="example2" tabindex="0" id="example2_previous"><a href="?p=1"><<</a></li>
+		<li class="paginate_button " aria-controls="example2" tabindex="0"><?php echo  $_PAGING->get_prev_page_link();?></li>
+		<?php echo $_PAGING->get_page_links();?>
+		<li class="paginate_button next disabled" aria-controls="example2" tabindex="0" id="example2_next"><?php echo $_PAGING->get_next_page_link();?></li>
+	</ul>
+</div>
+
     </div>
   
 	

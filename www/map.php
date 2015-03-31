@@ -252,7 +252,7 @@ $(function(){
 <?php   if(isset($_GET['edit'])){  ?>
 	$("#dra<?php echo $id;?>").draggable({stop: function(event, ui) {$('#r_left<?php echo $id;?>').val(ui.position.left);$('#r_top<?php echo $id;?>').val(ui.position.top);}});
 <?php  } else{ ?>
-	document.getElementById('upda<?php	echo $id;?>').onmousedown = function(e){hidediver();$.ajax({type: 'POST',url: 's-response.php',data: 'value=<?php	echo $Mcommands; ?>'});}	
+	document.getElementById('upda<?php	echo $id;?>').onmousedown = function(e){hidediver();$.ajax({type: 'POST',url: 'post.map_run.php',data: 'value=<?php	echo $Mcommands; ?>'});}	
 	<?php  }  ?>
 });
 </script>
@@ -477,7 +477,7 @@ $(function() {
 <script>
 function send() {
 var data = $(':text').map(function(i, el){   return $(el).attr("name")+'='+$(el).attr("value")+'=<?php	echo $G_id_user;?>';}).get();
-$.ajax({ type: "POST", url: "SendData.php", data: "data="+data });
+$.ajax({ type: "POST", url: "post.map_position.php", data: "data="+data });
 alert('Положение изменено на: '+data); 
 }
 </script>				

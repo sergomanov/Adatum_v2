@@ -1,6 +1,8 @@
 <?php	
  include 's-head.php';
  include 'adatum.class.php';
+  include 's-lib.php'; 
+  
 $errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
 
 if (isset($_POST['del'])) 
@@ -195,7 +197,10 @@ header("Location: run.php");
       
 <button id="del" disabled="disabled" onclick="return confirm('Вы действительно хотите удалить записи?')" type="submit" class="btn btn-danger btn-sm btn-small"  name="del" title="Удалить записи"><i class="icon-trash-8"></i> Удалить записи</button> 
 		   
-     
+  	<div class="col-xs-12"><div id="example2_filter" class="dataTables_filter"><label>Поиск: <input type="text" name="search" class="form-control input-sm" value="<?php if(isset($_POST['search'])){echo $_POST['search'];} ?>" ></label></div></div>
+	
+	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;   position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
+	   
 <section id="settings-notifications">
 
 <table id="example2" class="example table table-striped table-bordered" cellspacing="0">
@@ -216,9 +221,20 @@ header("Location: run.php");
 <?php
 $timein=NULL;
 $timeout=NULL;
-if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM commands  ORDER BY id DESC");}
-else { $IDDN = mysqli_query($con,"SELECT * FROM commands  WHERE id_user = '$G_id_user' OR id_user = 1 ORDER BY id DESC");}
-if($IDDN) { while($row= mysqli_fetch_assoc($IDDN)) {
+
+//if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM commands  ORDER BY id DESC");}
+//else { $IDDN = mysqli_query($con,"SELECT * FROM commands  WHERE id_user = '$G_id_user' OR id_user = 1 ORDER BY id DESC");}
+//if($IDDN) { while($row= mysqli_fetch_assoc($IDDN)) {
+$_PAGING = new Paging($con);
+$search = $_POST['search'];
+if($G_id_user==1){
+$r = $_PAGING->get_page( "SELECT * FROM commands WHERE (mode LIKE '%$search%' OR id LIKE '%$search%' OR name LIKE '%$search%' OR address LIKE '%$search%' OR vale LIKE '%$search%') ORDER BY id DESC" ); 
+} else {
+$r = $_PAGING->get_page( "SELECT * FROM commands  WHERE (mode LIKE '%$search%' OR id LIKE '%$search%' OR name LIKE '%$search%' OR address LIKE '%$search%' OR vale LIKE '%$search%') AND id_user = '$G_id_user' OR id_user = 1 ORDER BY id DESC " ); 
+}
+while($row = $r->fetch_assoc())
+{
+	
 $timein=$row['timein'];  if($timein!=NULL){$timein=date('Y-m-d / H:i:s',$timein);}
 $timeout=$row['timeout'];  if($timeout){$timeout=date('Y-m-d / H:i:s',$timeout);}
 $M_address = $row['address'];
@@ -233,7 +249,7 @@ $Str = mysqli_query($con,"SELECT * FROM type WHERE mode='$rowmode' AND id_user =
 	<?php	$Mcommands="#".$row['address']."#".$row['mode']."#".$row['vale']."##";  ?>
 
 	<?php if($G_regim==0 OR $G_regim==3 OR $G_regim==2){ ?>
-	<td onclick="$.ajax({type: 'POST',url: 's-respfast.php',data: 'value=<?php	echo $Mcommands; ?>',success: function(data){$('.results').html(data);}});" class="mycursor">
+	<td onclick="$.ajax({type: 'POST',url: 'post.run.php',data: 'value=<?php	echo $Mcommands; ?>',success: function(data){$('.results').html(data);}});" class="mycursor">
 	<i class="icon-flash " style="color:#E9AE16;font-size: 20px;"></i><sm>0<sm>
 	</td>
 	<?php } else { ?>
@@ -320,10 +336,20 @@ function getText<?php echo $row['id'];?>(el){
 					  
 </tr>
 											
-										<?php  }}	?>													
+<?php  }	?>													
 		  </tbody>
 			</table>	
         </section>
+		<div class="dataTables_info hidden-xs" id="example_info"><?php echo $_PAGING->get_result_text().' записей';?></div>
+
+<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+	<ul class="pagination">
+		<li class="paginate_button previous" aria-controls="example2" tabindex="0" id="example2_previous"><a href="?p=1"><<</a></li>
+		<li class="paginate_button " aria-controls="example2" tabindex="0"><?php echo  $_PAGING->get_prev_page_link();?></li>
+		<?php echo $_PAGING->get_page_links();?>
+		<li class="paginate_button next disabled" aria-controls="example2" tabindex="0" id="example2_next"><?php echo $_PAGING->get_next_page_link();?></li>
+	</ul>
+</div>
 </div>
 </div>
 </div>

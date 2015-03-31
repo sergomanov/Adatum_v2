@@ -21,7 +21,7 @@ if ($auth->check()) {header("Location: main.php");}
       <div id="cont" class="cont" style="overflow: scroll;">
          <div id="top">
             <div id="logo">
-                            <a href="#" class="logo" style="margin: 24px 0 0 56px;  position: absolute;">
+                            <a href="#" class="logo" style="bottom: 100px;  margin: 24px 0 0 56px;  position: absolute;">
 <i style="    font-size: 72px;    position: absolute;    color: #00ADFF;    font-style: normal;    font-weight: 900;    margin: 9px 0 0 14px;    z-index: 1;" class="icon-home-1"></i>	
 <i style="    font-size: 57px;    position: absolute;    color: #FF0000;    font-style: normal;    font-weight: 900;    margin: 37px 0 0 47px;    z-index: 2;">T</i>
 <i style="    font-size: 70px;    position: absolute;    color: #FFFFFF;    font-style: normal;    font-weight: 900;    margin: 30px 0 0 43px;    z-index: 1;">T</i>
@@ -30,6 +30,7 @@ if ($auth->check()) {header("Location: main.php");}
                <div class="slogan">Доступная автоматизация</div>           
                <div id="short-about">Открытая система автоматизации помещений</div>
             </div>
+			
 
 <?php
 $form = '
@@ -60,8 +61,12 @@ $form = '
 	';
 if (isset($_POST['send'])) {
 	if ($auth->reg()) {		header("Location: index.php");	} else {
-		print $auth->error_reporting();
-		print $form;
+		?>
+		<div class="alert alert-warning">
+	<?php	print $auth->error_reporting();?>
+	</div>
+<?php	
+	print $form;
 	}
 } else print $form;
 ?>

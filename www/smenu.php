@@ -160,7 +160,7 @@ $Mcommands="#".$rowe6['address']."#".$rowe6['mode']."#".$rowe6['vale']."##";
 ?>	
 	
 	
-<div <?php if($onlin!=0) {?>onclick="hidediver();$.ajax({type: 'POST',url: 's-respfast.php',data: 'value=<?php	echo $Mcommands; ?>'});"<?php } ?>
+<div <?php if($onlin!=0) {?>onclick="hidediver();$.ajax({type: 'POST',url: 'post.run.php',data: 'value=<?php	echo $Mcommands; ?>'});"<?php } ?>
 title="<?php	echo $rowe6['name']; ?>" class="add-command s2-control-button s2-control-left2" style="background: #EBEBEB;
 text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bottom: 2px solid white;padding-top: 3px">		
 

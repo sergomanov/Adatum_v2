@@ -171,7 +171,8 @@ img
 #top #logo div.slogan
 {
 	clear: both;
-	margin-top: 5px;
+	bottom: 235px;
+  position: absolute
 }
 #top #logo div img
 {
@@ -179,7 +180,7 @@ img
 }
 #top #logo #short-about
 {
-	  top: 200px;
+	bottom: 50px;
 	position: absolute;
 }
 #top .form
@@ -767,3 +768,9 @@ width: 228px;
 }
 
 	
+.alert{
+color: #FFF;
+  font-size: 11px;
+  padding: 8px 0 0 15px;
+  position: absolute;
+}

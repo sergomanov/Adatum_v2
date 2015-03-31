@@ -1560,3 +1560,8 @@ padding-top: 3px
   font-size: 11px;
   color: #7C7777;
 }
+.ui-icon {
+  display: block;
+  text-indent: 1px;
+  background-repeat: no-repeat;
+}

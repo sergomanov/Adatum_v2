@@ -77,15 +77,15 @@ class auth {
 	 */
 	function check_new_user($login, $passwd, $passwd2, $mail) {
 		//~ validate user data
-		if (empty($login) or empty($passwd) or empty($passwd2)) $error[]='All fields are required';
-		if ($passwd != $passwd2) $error[]='The passwords do not match';
-		if (strlen($login)<3 or strlen($login)>30) $error[]='The login must be between 3 and 30 characters';
-		if (strlen($passwd)<3 or strlen($passwd)>30) $error[]='The password must be between 3 and 30 characters';
+		if (empty($login) or empty($passwd) or empty($passwd2)) $error[]='Все поля обязательные для заполнения';
+		if ($passwd != $passwd2) $error[]='Пароли не совпадают';
+		if (strlen($login)<3 or strlen($login)>30) $error[]='Войти должны быть между 3 и 30 символов';
+		if (strlen($passwd)<3 or strlen($passwd)>30) $error[]='Пароль должен быть от 3 до 30 символов';
 		//~ validate email
-		if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) $error[]='Not correct email';
+		if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) $error[]='Не правильный адрес электронной';
 		//~ Checks the user with the same name in the database
-		if (mysql::query("SELECT * FROM users WHERE login_user='".$login."';", 'num_row')!=0) $error[]='A user with this name already exists';
-		if (mysql::query("SELECT * FROM users WHERE mail_user='".$mail."';", 'num_row')!=0) $error[]='User with this email already exists';
+		if (mysql::query("SELECT * FROM users WHERE login_user='".$login."';", 'num_row')!=0) $error[]='Пользователь с таким именем уже существует';
+		if (mysql::query("SELECT * FROM users WHERE mail_user='".$mail."';", 'num_row')!=0) $error[]='Пользователь с таким E-mail уже существует';
 
 		//~ return error array or TRUE
 		if (isset($error)) {
@@ -117,7 +117,7 @@ class auth {
 			if ($query) {
 				return true;
 			} else {
-				self::$error='An error occurred while registering a new user. Contact the Administration.';
+				self::$error='Произошла ошибка при регистрации нового пользователя. Связаться с администрацией.';
 				return false;
 			}
 		} else {
@@ -182,7 +182,7 @@ class auth {
 		$find_user=mysql::query("SELECT * FROM `users` WHERE `login_user`='".$user_data['login']."';", 'assoc');
 		if (!$find_user) {
 			//~ user not found
-			self::$error='User not found';
+			self::$error='Пользователь не найден';
 			return false;
 		} else {
 			//~ user found
@@ -203,7 +203,7 @@ class auth {
 				return true;
 			} else {
 				//~ passwords not match
-				self::$error='User not found or password not match';
+				self::$error='Пользователь не найден или пароль не совпадают';
 				return false;
 			}
 		}
@@ -235,7 +235,7 @@ class auth {
 		$login=mysql::screening($login);
 		$mail=mysql::screening($mail);
 		if (!filter_var($mail, FILTER_VALIDATE_EMAIL)){
-			self::$error='Not correct email';
+			self::$error='Не правильный адрес электронной';
 			return false;
 		}
 		//~ select data from this login
@@ -243,7 +243,7 @@ class auth {
 		if ($find_user) {
 			if ($find_user['mail_user']!=$mail) {
 				//~ Email does not meet this login.
-				self::$error='Email does not conform to this login';
+				self::$error='Email не соответствует этим логином';
 				return false;
 			} else {
 				//~ email and login is correct
@@ -254,13 +254,13 @@ class auth {
 					mysql::query("UPDATE `users` SET `passwd_user`='".$new_passwd_sql."' WHERE `id_user` = ".$find_user['id_user'].";");
 					return true;
 				} else {
-					self::$error='A new password has been sent. Contact with the administration.';
+					self::$error='Новый пароль был отправлен. Контакты с администрацией.';
 					return false;
 				}
 			}
 		} else {
 			//~ this login - not found
-			self::$error='User not found';
+			self::$error='Пользователь не найден';
 			return false;
 		}
 	}
@@ -301,7 +301,7 @@ class auth {
 			$r.=self::$error;
 		}
 		if (count(self::$error_arr)>0) {
-			$r.='<h2>The following errors occurred:</h2>'."\n".'<ul>';
+			$r.='<h2>Произошли следующие ошибки:</h2>'."\n".'<ul>';
 			foreach(self::$error_arr as $key=>$value) {
 				$r.='<li>'.$value.'</li>';
 			}
@@ -314,7 +314,7 @@ class auth {
 
 //~ Параметры потключения к бд
 include_once "mysql";
-DEFINE("SECRET_KEY", "adatum");
+DEFINE("SECRET_KEY", $secret_key);
 mb_internal_encoding("UTF-8");
 
 // подключаемся к бд
