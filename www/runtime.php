@@ -320,7 +320,7 @@ if($res_W) {   while($row_W = mysqli_fetch_assoc($res_W))
 	mysqli_query($con,"INSERT INTO developments (address,unixtime,mode,vale) VALUES ('$address_row_W','$unixtime','ONLINE','0')");
 	signal_run($address_row_W,'ONLINE','0',$db_host,$db_login ,$db_passwd,$db_name);
    }
-mysqli_free_result($res5); } 
+mysqli_free_result($res_W); } 
 
 $res_X = mysqli_query($con,"SELECT * FROM `namedev` WHERE unixtime > '$time_period' AND unixtime!=0 AND state!=1");
 if($res_X) {   while($row_X = mysqli_fetch_assoc($res_X)) 
@@ -332,7 +332,7 @@ if($res_X) {   while($row_X = mysqli_fetch_assoc($res_X))
 	mysqli_query($con,"INSERT INTO developments (address,unixtime,mode,vale) VALUES ('$address_row_X','$unixtime','ONLINE','1')");
 	signal_run($address_row_X,'ONLINE','1',$db_host,$db_login ,$db_passwd,$db_name);	
    }
-mysqli_free_result($res5); } 
+mysqli_free_result($res_X); } 
 //---------------------------------- Команда ONLINE ---------------------------------------------------------  
 
 

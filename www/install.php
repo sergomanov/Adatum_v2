@@ -1,5 +1,5 @@
 <?php	
-//ini_set('display_errors','Off');
+ini_set('display_errors','Off');
 //ini_set("display_errors",1);error_reporting(E_ALL);
 include_once "mysql";
 $errors=NULL;
@@ -208,6 +208,14 @@ INSERT INTO `users` (`id_user`, `login_user`, `passwd_user`, `mail_user`, `key_u
 (2, 'demo', '53a2e0f8485a1da00509e3cc6bf40e0b', 'demo@demo.ru', 'yA4gAjQ4xC', 7200, '/feditor/attached/image/20150313/20150313102144_79301.jpg', 0);
 ");
 
+mysqli_query($con,"
+INSERT INTO `type` (`id`, `mode`, `name`, `namevalue1`, `namevalue2`, `namevalue3`, `id_user`, `type`, `ico`, `symbol`, `regim`, `color`, `tchart`, `control`) VALUES
+(NULL, 'EML', 'Отправка E-mail сообщения', 'Адрес E-mail', 'Заголовок письма', 'Текст письма', 0, 3, 'icon-mail-7', '', 3, '', 0, 0),
+(NULL, 'ACT', 'Активация правил', 'Номер правила', 'Состояние правила', '', 0, 2, 'icon-shuffle-3', '', 3, '#b539bf', 1, 0),
+(NULL, 'SMS', 'Отправка SMS сообщения', 'Номер телефона', 'Текст сообщения', '', 0, 2, 'icon-mobile-alt', '', 3, '#a52cb0', 0, 0),
+(NULL, 'ONLINE', 'Устройство в сети', 'Состояние устройства (0-выкл, 1-вкл)', '', '', 0, 1, 'icon-share-squared', '', 1, '#5cd90f', 0, 0);
+
+");
 
 
 }
