@@ -59,6 +59,11 @@ if (isset($_POST['edit'])) {
 		if($type==9){$icocolor ="";$ico ="";}
 		if($type==10){$name =$moddevice;}
 		if($type==10){$drivers =$typedev;}
+		
+		
+		$typedev=join(',', array_unique(preg_split('/[\s,]+/', $typedev)));
+		$commands=join(',', array_unique(preg_split('/[\s,]+/', $commands)));
+
 
 		if($errors==NULL){
 			mysqli_query($con,"UPDATE scheduler SET  name='$name', switch='$switch',drivers='$drivers',color='$icocolor',ico='$ico',type='$type',conditions='$conditions',commands='$commands' WHERE id = '$id'");

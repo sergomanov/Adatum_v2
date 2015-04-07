@@ -1,4 +1,4 @@
-<div class="left-area Mscroll" style="border-right: 1px solid #CDCDCD;overflow: scroll;" id="pole">
+<div class="left-area Mscroll" style="border-right: 1px solid #CDCDCD;overflow: scroll;  z-index: 3;" id="pole">
 
 <ul id="men" class="s2-menu -js-device-menu  main-menu -js-main-menu"  style="display: block;  padding-left: 5px;">
 

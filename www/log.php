@@ -5,8 +5,8 @@
  ?>
 <!DOCTYPE html>
 <html>
-	<head><?php	 include 'head.php'; ?></head>
-	
+<head><?php	 include 'head.php'; ?></head>
+
 <body class="white">
 <form method="POST" action="">
 	   <div  class="s2-content" id="paddi" style="padding-top: 70px;">
@@ -24,41 +24,33 @@
 	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;   position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
 
 <section id="settings-notifications">
-<?php
-$rtype = mysqli_query($con,"SELECT * FROM namedev WHERE id_user='$G_id_user' "); 
-while($rowr = mysqli_fetch_assoc($rtype)) {	$resadr="'".$rowr['address']; $resp=$resadr."',".$resp;}
-$resp=	substr($resp, 0, -1);  
-$_PAGING = new Paging($con);
-$search = $_POST['search'];
-$r = $_PAGING->get_page( "SELECT * FROM developments  WHERE (mode LIKE '%$search%' OR address LIKE '%$search%') AND address IN ($resp) ORDER BY id DESC " ); 
-?>	
-<table id="example99" class=" table table-striped table-bordered" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                             	<th data-class="expand" style="width: 40px;"></th>
-												<th data-class="expand">Описание</th>
-												<th data-class="expand">Дата</th>
-                                               
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-			
-<?php
-while($row = $r->fetch_assoc())
-{
-	$M_address = $row['address'];
-  ?>
-			
+	<?php
+	$rtype = mysqli_query($con,"SELECT * FROM namedev WHERE id_user='$G_id_user' "); 
+	while($rowr = mysqli_fetch_assoc($rtype)) {	$resadr="'".$rowr['address']; $resp=$resadr."',".$resp;}
+	$resp=	substr($resp, 0, -1);  
+	$_PAGING = new Paging($con);
+	$search = $_POST['search'];
+	$r = $_PAGING->get_page( "SELECT * FROM developments  WHERE (mode LIKE '%$search%' OR address LIKE '%$search%') AND address IN ($resp) ORDER BY id DESC " ); 
+	?>	
+	<table class=" table table-striped table-bordered" cellspacing="0">
+		<thead>
+			<tr>
+				<th data-class="expand" style="width: 40px;"></th>
+				<th data-class="expand">Описание</th>
+				<th data-class="expand">Дата</th>
+			</tr>
+		</thead>
+
+		<tbody>		
+		<?php	while($row = $r->fetch_assoc()){	$M_address = $row['address'];  ?>
 			<tr>
 					<td>
 						<?php $rowmode = $row['mode']; 
 						if($G_id_user==1){$resico = mysqli_query($con,"SELECT * FROM `type` WHERE mode ='$rowmode' LIMIT 1");} 
-									else {$resico = mysqli_query($con,"SELECT * FROM `type` WHERE mode ='$rowmode' AND id_user = '$G_id_user'");}
+									else {$resico = mysqli_query($con,"SELECT * FROM `type` WHERE mode ='$rowmode' AND (id_user = '$G_id_user' OR id_user = '0') LIMIT 1");}
 						if($resico){while($rowico = mysqli_fetch_assoc($resico)){$rowicon=$rowico['ico']; $rowcolor=$rowico['color'];?>
 						<i class="<?php echo $rowicon; ?> text-success " style="font-size: 18px; color: <?php	echo $rowcolor; ?> !important;"></i> <?php }}  ?>
 					</td>
-
-				
 
 					<td>
 					<?php	echo "Тип: ".$row['mode']."<br>"; ?>
@@ -68,11 +60,8 @@ while($row = $r->fetch_assoc())
 					</td>
 
 					<td class="v-align-middle"><span class="muted"><?php	echo date("Y-m-d H:i", $row['unixtime']+$timezone);      ?></span></td>
-			</tr>
-											
-			<?php  }
-			//}
-			?>													
+			</tr>		
+			<?php  }	?>													
 		</tbody>
 	</table>									
 </section>
@@ -86,9 +75,7 @@ while($row = $r->fetch_assoc())
 		<?php echo $_PAGING->get_page_links();?>
 		<li class="paginate_button next disabled" aria-controls="example2" tabindex="0" id="example2_next"><?php echo $_PAGING->get_next_page_link();?></li>
 	</ul>
-</div>
-
-									
+</div>							
 
 </div></div></div></div>
 </form>

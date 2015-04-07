@@ -123,6 +123,12 @@ if (isset($_POST['edit'])) {
   if(isset($_POST['month'])){ $Zmonth = array_unique($_POST['month']); $monthc=""; foreach ($Zmonth as $monthb)   {  $montha=$monthb.",";  $monthc .= $montha;  } $month = substr($monthc, 0, strlen($monthc)-1); }
   if(isset($_POST['conditions'])){  $Zconditions = array_unique($_POST['conditions']); $conditionsc=""; foreach ($Zconditions as $conditionsb)   {  $conditionsa=$conditionsb.",";  $conditionsc .= $conditionsa;  } $conditions = substr($conditionsc, 0, strlen($conditionsc)-1); }
   if(isset($_POST['commands'])){  $Zcommands = array_unique($_POST['commands']);	$commandsc="";  foreach ($Zcommands as $commandsb)   	  { 	  $commandsa=$commandsb.","; 	  $commandsc .= $commandsa;  	  } $commands = substr($commandsc, 0, strlen($commandsc)-1);   }
+  
+  $weekdays=join(',', array_unique(preg_split('/[\s,]+/', $weekdays)));
+  $monthdays=join(',', array_unique(preg_split('/[\s,]+/', $monthdays)));
+  $month=join(',', array_unique(preg_split('/[\s,]+/', $month)));
+  $conditions=join(',', array_unique(preg_split('/[\s,]+/', $conditions)));
+  $commands=join(',', array_unique(preg_split('/[\s,]+/', $commands)));
 
 	if($datein!=NULL){
 	  $arr_date=explode("-",$datein); $arr_min=explode(":",$timein); 

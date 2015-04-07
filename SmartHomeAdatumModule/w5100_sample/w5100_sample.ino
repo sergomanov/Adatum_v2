@@ -2,10 +2,10 @@
 #include <Ethernet.h>
 
 byte mac[] = { 0x00, 0x1D, 0x75, 0x7B, 0xCB, 0xA5 }; //MAC-адрес Arduino
-char* mack="00-1D-75-7B-CB-A5";
+char* mack="00-1D-75-7B-CB-55";
 
-char server[] = "dom.omsk55.org";    // name address for Google (using DNS)
-IPAddress ip(81,177,141,112);
+char server[] = "online.adatum.ru";    // name address for Google (using DNS)
+IPAddress ip(99,55,141,112);
 EthernetClient client;
 
 void setup() {

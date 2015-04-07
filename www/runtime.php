@@ -124,21 +124,55 @@ function signal_run($address,$mode,$vale,$db_host,$db_login ,$db_passwd,$db_name
 		}  mysqli_free_result($res4); } 		
 		//----------------------- Строго равно ------------------------------------------------------------------------------------------------
 		
+		//-----------------------------------------------------------------------------------------------------------
+			$res4 = mysqli_query($con,"SELECT * FROM commands WHERE vale < '$vale' AND mode = '$mode' AND address = '$address' AND cond='2'");
+		if($res4) {   while($row4 = mysqli_fetch_assoc($res4)) 
+		{
+			$nev = $row4['id'];
+				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND FIND_IN_SET('$nev', conditions)");
+				if($G_conditions) {   while($G_conditions_row = mysqli_fetch_assoc($G_conditions)) 
+				{ 
+					$Cond_id=$G_conditions_row['id'];
+					mysqli_query($con,"UPDATE scheduler SET drivers = NULL WHERE id = '$Cond_id'");
+					
+				} 	
+				mysqli_free_result($G_conditions); } 
+				
+		}  mysqli_free_result($res4); } 
+		
+		
+		$res4 = mysqli_query($con,"SELECT * FROM commands WHERE vale > '$vale' AND mode = '$mode' AND address = '$address' AND cond='1'");
+		if($res4) {   while($row4 = mysqli_fetch_assoc($res4)) 
+		{
+			$nev = $row4['id'];
+			$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND FIND_IN_SET('$nev', conditions)");
+				if($G_conditions) {   while($G_conditions_row = mysqli_fetch_assoc($G_conditions)) 
+				{ 
+					$Cond_id=$G_conditions_row['id'];
+					mysqli_query($con,"UPDATE scheduler SET drivers = NULL WHERE id = '$Cond_id'");
+					
+				} 	
+				mysqli_free_result($G_conditions); } 
+		
+		}  mysqli_free_result($res4); } 
+			
+		//-----------------------------------------------------------------------------------------------------------
+		
 		//----------------------- Больше ------------------------------------------------------------------------------------------------
 		$res4 = mysqli_query($con,"SELECT * FROM commands WHERE vale < '$vale' AND mode = '$mode' AND address = '$address' AND cond='1'");
 		if($res4) {   while($row4 = mysqli_fetch_assoc($res4)) 
 		{
 			$nev = $row4['id'];
-			//echo $nev;
 			$timereal=time();
 			mysqli_query($con,"UPDATE commands SET unixtime ='$timereal' WHERE id = '$nev'");
 			
-				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND FIND_IN_SET('$nev', conditions)");
+				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND drivers!=1 AND FIND_IN_SET('$nev', conditions)");
 				if($G_conditions) {   while($G_conditions_row = mysqli_fetch_assoc($G_conditions)) 
 				{ 
+			
 					$number=$G_conditions_row['commands']; 
 					$Cond_id=$G_conditions_row['id'];
-					mysqli_query($con,"UPDATE scheduler SET timerun ='$timereal' WHERE id = '$Cond_id'");
+					mysqli_query($con,"UPDATE scheduler SET timerun ='$timereal',drivers = 1 WHERE id = '$Cond_id'");
 					//$arr = explode(',',$number);foreach($arr as $item) { add_to_run($item,$db_host,$db_login ,$db_passwd,$db_name);	}
 					 add_to_run($number,$db_host,$db_login ,$db_passwd,$db_name);
 				} 	
@@ -155,12 +189,12 @@ function signal_run($address,$mode,$vale,$db_host,$db_login ,$db_passwd,$db_name
 			$timereal=time();
 			mysqli_query($con,"UPDATE commands SET unixtime ='$timereal' WHERE id = '$nev'");
 			
-				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND FIND_IN_SET('$nev', conditions)");
+				$G_conditions = mysqli_query($con,"SELECT * FROM `scheduler` WHERE switch = '1' AND drivers!=1 AND FIND_IN_SET('$nev', conditions)");
 				if($G_conditions) {   while($G_conditions_row = mysqli_fetch_assoc($G_conditions)) 
 				{ 
 					$number=$G_conditions_row['commands']; 
 					$Cond_id=$G_conditions_row['id'];
-					mysqli_query($con,"UPDATE scheduler SET timerun ='$timereal' WHERE id = '$Cond_id'");
+					mysqli_query($con,"UPDATE scheduler SET timerun ='$timereal',drivers = 1 WHERE id = '$Cond_id'");
 					//$arr = explode(',',$number);foreach($arr as $item) { add_to_run($item,$db_host,$db_login ,$db_passwd,$db_name);	}
 					 add_to_run($number,$db_host,$db_login ,$db_passwd,$db_name);
 				} 	

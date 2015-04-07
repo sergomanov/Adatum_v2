@@ -5,6 +5,7 @@ include_once "mysql";
 $errors=NULL;
 
 $con=mysqli_connect($db_host,$db_login,$db_passwd,$db_name);
+//$con->set_charset("utf8"); // здесь
 if (!mysqli_connect_errno() ) { header("Location: index.php"); }
 
 
@@ -56,6 +57,7 @@ replstr('4', '$db_passwd   = "'.$db_passwd_p.'";');
 replstr('5', '$db_name   = "'.$db_name_p.'";');
 
 $con=mysqli_connect($db_host_p,$db_login_p,$db_passwd_p,$db_name_p);
+$con->set_charset("utf8"); // здесь
 if (mysqli_connect_errno()) { $errors="- Неверный логин, пароль, сервер либо название базы пожалуйста исправьте их в файле mysql"; } else {
 
 

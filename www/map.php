@@ -14,10 +14,14 @@
 
   
 <form name="myForm" id="img" method="post" >
-<div id="draggable"><img src="<?php	echo $fonimg; ?>"   alt="lorem">
+<div id="draggable"><img src="<?php	echo $fonimg; ?>">
+
+
+
+
 
 		<?php 
-			$resulte = mysqli_query($con,"SELECT * FROM scheduler WHERE id_user = '$G_id_user' AND type=3");	
+			$resulte = mysqli_query($con,"SELECT * FROM scheduler WHERE id_user = '$G_id_user' AND type = 3");	
 			while($rowe = mysqli_fetch_assoc($resulte)) {
 			$id=$rowe['id'];
 			$r_left_polles="r_left_".$id; $r_left_result= mysqli_query($con, "SELECT * FROM `coordinates` WHERE id_user = '$G_id_user' AND idn = '$r_left_polles'"); $r_left_row=mysqli_fetch_array($r_left_result);	
@@ -25,6 +29,7 @@
 			$r_top_polles="r_top_".$id; $r_top_result= mysqli_query($con, "SELECT * FROM `coordinates` WHERE id_user = '$G_id_user' AND idn = '$r_top_polles'"); $r_top_row=mysqli_fetch_array($r_top_result);
 			$r_top=$r_top_row['coor'];
 			$Mcommands=$rowe['commands'];	
+			//echo $id;
 		?> 
 <script type="text/javascript">
 function woldiv<?php	echo $id;?>(){
@@ -104,21 +109,32 @@ $colW=0;$arrval = explode(',',$vale_po);foreach($arrval as $itembval) {	$colW++;
 				
 <?php }} mysqli_free_result($G_commands); }	?> 
 	
-
-
-
-
 	<button id="upda<?php	echo $id;?>" type="button" class="btn btn-sm btn-small btn-success " name="save" style="  margin: 6px 0px 3px 150px;" value=""><i class="icon-flash"></i> Выполнить</button>
 </div>
 
 </div>
 
+	
+<script>$(function(){
+<?php   if(isset($_GET['edit'])){  ?>
+	$("#dra<?php echo $id;?>").draggable({stop: function(event, ui) {$('#r_left<?php echo $id;?>').val(ui.position.left);$('#r_top<?php echo $id;?>').val(ui.position.top);}});
+<?php  } else{ ?>
+	document.getElementById('upda<?php	echo $id;?>').onmousedown = function(e){hidediver();$.ajax({type: 'POST',url: 'post.map_run.php',data: 'value=<?php	echo $Mcommands; ?>'});}	
+	<?php  }  ?>
+});
+</script>
+<?php }	?>  
+			
 
-
-
-
-
-
+			
+			
+			
+			
+			
+			
+			
+			
+			
 
 
 
@@ -204,61 +220,22 @@ $(function(){
 </script>
 
 <?php }	?> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
-<script>$(function(){
-<?php   if(isset($_GET['edit'])){  ?>
-	$("#dra<?php echo $id;?>").draggable({stop: function(event, ui) {$('#r_left<?php echo $id;?>').val(ui.position.left);$('#r_top<?php echo $id;?>').val(ui.position.top);}});
-<?php  } else{ ?>
-	document.getElementById('upda<?php	echo $id;?>').onmousedown = function(e){hidediver();$.ajax({type: 'POST',url: 'post.map_run.php',data: 'value=<?php	echo $Mcommands; ?>'});}	
-	<?php  }  ?>
-});
-</script>
-<?php }	?>  
 			
-
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 		<?php 
 			$resulte = mysqli_query($con,"SELECT * FROM scheduler WHERE id_user = '$G_id_user' AND type=10");	
@@ -404,7 +381,19 @@ $(function(){
 <?php   if(isset($_GET['edit'])){  ?>$("#draa<?php echo $id;?>").draggable({stop: function(event, ui) {$('#r_left<?php echo $id;?>').val(ui.position.left);$('#r_top<?php echo $id;?>').val(ui.position.top);}});<?php  } else{ ?>	  <?php  }  ?>
 });
 </script>
-<?php 	}	}	?>  		
+<?php 	}	}	?>  
+
+
+
+
+
+
+
+
+
+
+
+		
 </div>	
 </form>
 
@@ -458,7 +447,8 @@ document.getElementById("key5").style.display="block";
 }
  }
 }
- </script>			
+ </script>
+ 
 <script>
 $(function() {
     $('#nav button').on('click', function() {

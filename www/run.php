@@ -1,9 +1,9 @@
 <?php	
  include 's-head.php';
  include 'adatum.class.php';
-  include 's-lib.php'; 
+ include 's-lib.php'; 
   
-$errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
+ $errors=NULL;if($G_id_user==2){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Изменения данных в демо режиме запрещенны !";}
 
 if (isset($_POST['del'])) 
 {
@@ -16,7 +16,6 @@ if (isset($_POST['del']))
 
 if (isset($_POST['save'])) 
 {
-
  $name = $_POST['name'];
  $mode = $_POST['mode'];
  $address = $_POST['address'];
@@ -25,23 +24,22 @@ if (isset($_POST['save']))
  $vale3 = $_POST['vale3'];
  $vale4 = $_POST['vale4'];
  $controlir = $_POST['controlir'];
- 
 
-$ftype = mysqli_query($con,"SELECT * FROM `type` WHERE mode='$mode'");  if($ftype){while($ftype = mysqli_fetch_assoc($ftype)){ $rowmode=$ftype['type']; }} 
+	$ftype = mysqli_query($con,"SELECT * FROM `type` WHERE mode='$mode'");  if($ftype){while($ftype = mysqli_fetch_assoc($ftype)){ $rowmode=$ftype['type']; }} 
 
-if($rowmode==1){ $vale=rtrim($vale1," \t,");}
-if($rowmode==2){ $vale=rtrim($vale1.",".$vale2, " \t,");}
-if($rowmode==3){ $vale=rtrim($vale1.",".$vale2.",".$vale3, " \t,");}
-if($rowmode==4){ $vale="";}
+	if($rowmode==1){ $vale=rtrim($vale1," \t,");}
+	if($rowmode==2){ $vale=rtrim($vale1.",".$vale2, " \t,");}
+	if($rowmode==3){ $vale=rtrim($vale1.",".$vale2.",".$vale3, " \t,");}
+	if($rowmode==4){ $vale="";}
+	 
+	$idt=0; $rtype = mysqli_query($con,"SELECT * FROM commands WHERE address='$address' AND mode='$mode' AND vale='$vale'"); while($rowr = mysqli_fetch_assoc($rtype)) {$idt++;}
+	if($idt!=0){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Это действияе или условие уже есть в базе !";} 
  
-$idt=0; $rtype = mysqli_query($con,"SELECT * FROM commands WHERE address='$address' AND mode='$mode' AND vale='$vale'"); while($rowr = mysqli_fetch_assoc($rtype)) {$idt++;}
-if($idt!=0){$errors="<i class='icon-warning-1 lock-tab'></i>&emsp;&emsp;Это действияе или условие уже есть в базе !";} 
  
- 
-if($errors==NULL){
-mysqli_query($con,"INSERT INTO commands (name, mode, address,cond,vale,id_user,controlir) VALUES ('$name','$mode','$address','$vale4','$vale','$G_id_user','$controlir')");
-header("Location: run.php");
-}
+	if($errors==NULL){
+	mysqli_query($con,"INSERT INTO commands (name, mode, address,cond,vale,id_user,controlir) VALUES ('$name','$mode','$address','$vale4','$vale','$G_id_user','$controlir')");
+	header("Location: run.php");
+	}
 
 }
 
@@ -65,10 +63,10 @@ if($rowmode==2){ $vale=rtrim($vale1.",".$vale2, " \t,");}
 if($rowmode==3){ $vale=rtrim($vale1.",".$vale2.",".$vale3, " \t,");}
 if($rowmode==4){ $vale="";}
  
- if($errors==NULL){
-mysqli_query($con,"UPDATE commands SET name='$name',mode ='$mode',address ='$address',vale ='$vale',cond ='$vale4',controlir ='$controlir'  WHERE id = '$id'");
-header("Location: run.php");
- }
+	 if($errors==NULL){
+		mysqli_query($con,"UPDATE commands SET name='$name',mode ='$mode',address ='$address',vale ='$vale',cond ='$vale4',controlir ='$controlir'  WHERE id = '$id'");
+		header("Location: run.php");
+	 }
 }
 
 
@@ -154,21 +152,24 @@ header("Location: run.php");
 	 </div>                
 		<input id="Mradio0" checked="checked" type="radio" name="controlir" value="0" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio0">&nbsp; Нет контроля</label>				
 
+		
+		<div id="i_vale1" style="display: none; border: 1px double rgb(150, 147, 210);  padding: 3px;  margin-top: 5px;">
+		<input id="Mradio1" type="radio" name="controlir" value="1" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio1">&nbsp; Контроль по этому значению</label>
 		<p id="i_vale1_name" style=" font-size: 11px;"></p>
-		<div id="i_vale1" style="display: none">
-		<input id="Mradio1" type="radio" name="controlir" value="1" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio1">&nbsp; Контроль по этому значению</label><br>
 		<input type="text" name="vale1" id="vale1" class="form-control" placeholder=""> 
 		</div> 
 
+		
+		<div id="i_vale2" style="display: none; border: 1px double rgb(150, 147, 210);  padding: 3px;  margin-top: 5px;">
+		   <input id="Mradio2" type="radio" name="controlir" value="2" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio2">&nbsp; Контроль по этому значению</label>
 		<p id="i_vale2_name" style=" font-size: 11px;"></p>
-		<div id="i_vale2" style="display: none">
-		   <input id="Mradio2" type="radio" name="controlir" value="2" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio2">&nbsp; Контроль по этому значению</label><br>
 		<input type="text" name="vale2" id="vale2" class="form-control" placeholder=""> 
 		</div> 
 		
+		
+		<div id="i_vale3" style="display: none; border: 1px double rgb(150, 147, 210);  padding: 3px;  margin-top: 5px;">
+		<input id="Mradio3" type="radio" name="controlir" value="3" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio3">&nbsp; Контроль по этому значению</label>
 		<p id="i_vale3_name" style=" font-size: 11px;"></p>
-		<div id="i_vale3" style="display: none">
-		<input id="Mradio3" type="radio" name="controlir" value="3" style="margin-left: 5px;  margin-bottom: 4px;"><label for="Mradio3">&nbsp; Контроль по этому значению</label><br>
 		<input type="text" name="vale3" id="vale3" class="form-control" placeholder="">
 		</div> 
 			

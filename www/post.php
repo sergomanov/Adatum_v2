@@ -27,6 +27,7 @@ if(isset($_GET['ID']) || isset($_POST['ID'])){
 		} 
 		
 
+
 		
 		// ИЩЕМ в базе есть ли команды для данного устройства и если есть то выводим
 		$IDDN = mysqli_query($con,"SELECT * FROM run  WHERE address = '$address' AND run=0 ORDER BY id ASC limit 1");
