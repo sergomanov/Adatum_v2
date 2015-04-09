@@ -1317,6 +1317,7 @@ z-index: 999;
 		.title
 		{
 		color: #00aeef;
+		  padding-top: 10px;
 		}
 th{font-weight: 600;color: #48327C;}
 

@@ -224,7 +224,7 @@ function chartG<?php	echo $rowe4['id']; ?>(){
  var d2 = [
 <?php
 $per=0;
-$datetimein=time()-864000;
+$datetimein=time()-259200;
 $datetimeout=time();
 
 if ($resultr=mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"))  {  $rowcountt=mysqli_num_rows($resultr);  }
@@ -264,57 +264,14 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
  window.onresize = function(event) { $.plot($("#placeholder<?php	echo $rowe['id']; ?>"), [ d2 ],options);  }
  
  
-<?php
-//-------------------------------- за неделю ---------------------------------
-$datetimein=time()-604800;
-$datetimeout=time();
-
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$zna_sr=round($a['vale'], 1);
 
 
-$as = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$zna_min=round($as['vale'], 1);
 
-
-$am = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$zna_max=round($am['vale'], 1);
-//-------------------------------- за неделю ---------------------------------
-
-//-------------------------------- за месяц ---------------------------------
-$datetimein=time()-2592000;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znam_sr=round($a['vale'], 1);
-
-$al = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znam_min=round($al['vale'], 1);
-
-$ya = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znam_max=round($ya['vale'], 1);
-//-------------------------------- за месяц ---------------------------------
-
-//-------------------------------- за год ---------------------------------
-$datetimein=time()-31536000;
-$datetimeout=time();
-$a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znag_sr=round($a['vale'], 1);
-
-$aw = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znag_min=round($aw['vale'], 1);
-
-
-$aq = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$znag_max=round($aq['vale'], 1);
-//-------------------------------- за год ---------------------------------
-?>
-
-
-document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $zna_min; ?></gcol>/<scol><?php	echo $zna_sr; ?></scol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
+//document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $zna_min; ?></gcol>/<scol><?php	echo $zna_sr; ?></scol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
  
-document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <gcol>мин</gcol>/<scol>сред </scol>/<rcol>макс</rcol>: <gcol><?php	echo $znam_min; ?></gcol>/<scol><?php	echo $znam_sr; ?></scol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
+//document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <gcol>мин</gcol>/<scol>сред </scol>/<rcol>макс</rcol>: <gcol><?php	echo $znam_min; ?></gcol>/<scol><?php	echo $znam_sr; ?></scol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
  
-document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $znag_min; ?></gcol>/<scol><?php	echo $znag_sr; ?></scol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
+//document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $znag_min; ?></gcol>/<scol><?php	echo $znag_sr; ?></scol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
  
  };
 </script>
@@ -326,10 +283,7 @@ document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год
 	<div style="width: 25%;font-size: 1px;"><span class="battery_value">-</span> </div>
 
 	<div id="const<?php	echo $rowe['id']; ?>" style="display:none;padding-left: 10px;">
-	<div id="nedel<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за неделю:</div>
-	<div id="mes<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за месяц:</div>
-	<div id="god<?php	echo $rowe['id']; ?>" style="font-size: 11px;">Среднее за год:</div>
-	<div style="font-size: 12px; color: #4B4CAE;">Показан график за последние 10 дней.</div>
+		<div style="font-size: 12px; color: #4B4CAE;">Показан график за последние 3 дня.</div>
 	</div>
 			
 	<div id="placeholder<?php	echo $rowe['id']; ?>" style="width:100%;height:0px;padding: 10px;"></div>

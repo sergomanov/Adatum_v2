@@ -263,41 +263,8 @@ $(function(){
 			$cols=null;$pocaz = mysqli_query($con,"SELECT * FROM developments WHERE address = '$namaddres' AND mode = '$modeadr' ORDER BY id DESC LIMIT 1");
 			while($rowpocaz = mysqli_fetch_assoc($pocaz)) 	{ $cols++; $datcic = $rowpocaz['vale'];}
 			if($cols!=NULL){
+				$C_mode = $rowr['mode'];
 			?> 
-	
-
-
-<?php
-
-$C_mode = $rowr['mode'];
-//-------------------------------- за неделю ---------------------------------
-$datetimein=time()-604800;
-$datetimeout=time();
-$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$C_zna_sr=round($C_a['vale'], 1);
-
-$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$C_zna_min=round($C_a['vale'], 1);
-
-$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$C_zna_max=round($C_a['vale'], 1);
-//-------------------------------- за неделю ---------------------------------
-
-//-------------------------------- за месяц ---------------------------------
-$datetimein=time()-2592000;
-$datetimeout=time();
-$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT AVG(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$C_znam_sr=round($C_a['vale'], 1);
-
-$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MIN(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$C_znam_min=round($C_a['vale'], 1);
-
-$C_a = mysqli_fetch_assoc(mysqli_query($con,"SELECT MAX(vale) AS vale  FROM developments WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"));
-$C_znam_max=round($C_a['vale'], 1);
-//-------------------------------- за месяц ---------------------------------
-
-?>	
-
 <script type="text/javascript">
 $(function() {
 					
@@ -305,7 +272,7 @@ $(function() {
  var dd2 = [
 <?php
 $per=0;
-$datetimein=time()-864000;
+$datetimein=time()-259200;
 $datetimeout=time();
 if ($resultrt=mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$C_mode' AND address = '$namaddres'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"))  {  $rowcounttr=mysqli_num_rows($resultrt);  }
 
@@ -361,8 +328,7 @@ document.getElementById('draa<?php	echo $id;?>').style.zIndex ="9";
 		
 <div onmousedown="widdiv<?php	echo $id;?>()" class="Dra" id="draa<?php	echo $id;?>" style="border: 1px solid <?php	echo $rowr['color']; ?>; left: <?php	echo $r_left;?>px; top: <?php	echo $r_top;?>px;">
 	<div id="chart<?php	echo $id;?>" style="display:none;">
-	<sd class="polezn" style="margin:  4px 0px 0px 60px;">за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $C_zna_min; ?></gcol>/<scol><?php	echo $C_zna_sr; ?></scol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?></sd>
-	<sd class="polezn"  style="margin:  36px 0px 0px 60px;">за месяц  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $C_zna_min; ?></gcol>/<scol><?php	echo $C_zna_sr; ?></scol>/<rcol><?php	echo $C_zna_max."</rcol> ".$symbol; ?></sd>
+
 	<div class="chartsM"><div id="ph<?php	echo $id;?>" style="width:255px;height:90px;margin-top: 60px;"></div></div>
 	</div>
 	<i class="<?php	echo $rowr['ico']; ?> text-success" style="position: relative;font-size: 22px; color:<?php	echo $rowr['color']; ?>"></i><br>
