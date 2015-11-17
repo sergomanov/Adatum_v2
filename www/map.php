@@ -4,7 +4,7 @@
 </div>
 
 <a class="roundbutton" id="key1"  href="button.php"  style="bottom: 12px;left: 5px;" value="-"><i class="icon-cog" style="font-size: 26px;"></i></a>
-<a class="roundbutton" id="key2" href="ymap.php"  style="bottom: 70px;left: 5px;" value="-"><i class="icon-globe-1" style="font-size: 26px;"></i></a>
+
 
 <?php if(isset($_GET['edit'])){ ?>
 <a href="main.php" id="key5" title="Закончить редактирование" onclick="send();"  class="s3-hide-panel" style="background-color: #ffa800!important;height: 60px;  padding: 15px 16px 17px;"><i class="icon-move-2"></i> </a>	

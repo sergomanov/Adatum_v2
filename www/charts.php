@@ -237,7 +237,7 @@ $per=0;
 if ($resultry=mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"))  {  $rowcountty=mysqli_num_rows($resultry);  }
 	  $res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
 
-if($rowcountty<20){
+if($rowcountty<99){
 if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$utime7=$row9['unixtime'];
 	$vale79=$row9['vale'];
@@ -246,7 +246,7 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	echo "[".$utime7.",".$per."],";
 }}
 } else {
-$coltec=0;$col_per=ceil($rowcountty/20);$gl=0;
+$coltec=0;$col_per=ceil($rowcountty/99);$gl=0;
 if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
 	$coltec++;
 	$utime7=$row9['unixtime'];

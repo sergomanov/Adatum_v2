@@ -27,60 +27,49 @@ header("Location: setting.php");
  
  if (isset($_POST['edituser'])) {
 
+	$unixtime=time();
+	$id_user = $_POST['id_user'];
+	$passwd = $_POST['passwd'];
+	$passwd = trim($passwd);
+	$passwd2 = $_POST['passwd2'];
+	$login = $_POST['login'];
+	$mail_user = $_POST['mail'];
+	$login = trim($login);
+	
+	if ($passwd != $passwd2 OR $passwd==NULL ) { $errors ="Введенные пароли не совпадают или пароль пустой"; }
 
+	$rtype = mysqli_query($con,"SELECT * FROM users WHERE id_user='$id_user'"); while($rowr = mysqli_fetch_assoc($rtype)) {$user_key = $rowr['key_user'];}
+	
+	if(isset($_POST['cbx']))
+	{
+		
+		$passwd = md5($user_key.$passwd.$secret_key); //~ хеш пароля с солью
+		mysqli_query($con,"UPDATE users SET passwd_user='$passwd',mail_user ='$mail_user'  WHERE id_user = '$id_user'");
+		header("Location: setting.php");	
+	} 
+		else 
+	{
+		mysqli_query($con,"UPDATE users SET mail_user ='$mail_user' WHERE id_user = '$id_user'");
+		header("Location: setting.php");	
+	}
 
- $unixtime=time();
- 
- $id_user = $_POST['id_user'];
- $passwd = $_POST['passwd'];
- $passwd2 = $_POST['passwd2'];
- $login = $_POST['login'];
- $mail_user = $_POST['mail'];
- 
-
-
-$login = trim($login);
-
-
-if(isset($_POST['cbx'])){
-
-if ($passwd != $passwd2 OR $passwd==NULL ) {	$errors ="Введенные пароли не совпадают";} else {
-$passwd = md5(trim($passwd).'7seR#21rrTE6'); //~ хеш пароля с солью
-//mysqli_query($con,"UPDATE users SET passwd_user='$passwd',login_user ='$login',mail_user ='$mail_user',rule1 ='$rule1' ,rule2 ='$rule2' ,rule3 ='$rule3' ,rule4 ='$rule4',rule5 ='$rule5'  WHERE id_user = '$id_user'");
-header("Location: setting.php");	
 }
-} else {
-//mysqli_query($con,"UPDATE users SET login_user ='$login',mail_user ='$mail_user',rule1 ='$rule1' ,rule2 ='$rule2' ,rule3 ='$rule3' ,rule4 ='$rule4' ,rule5 ='$rule5' WHERE id_user = '$id_user'");
-header("Location: setting.php");	
-}
 
-}
-
-
-
-if (isset($_POST['adduser'])) {
- $unixtime=time();
- $id_user = $_POST['id_user'];
- $passwd = $_POST['passwd'];
- $passwd2 = $_POST['passwd2'];
- $login = $_POST['login'];
- $mail_user = $_POST['mail'];
- if(isset($_POST['checkbox1'])){ $rule1 = $_POST['checkbox1'];} else {$rule1 = 0;}
-  if(isset($_POST['checkbox2'])){ $rule2 = $_POST['checkbox2'];}else {$rule2 = 0;}
-   if(isset($_POST['checkbox3'])){ $rule3 = $_POST['checkbox3'];}else {$rule3 = 0;}
-    if(isset($_POST['checkbox4'])){ $rule4 = $_POST['checkbox4'];}else {$rule4 = 0;}
-	 if(isset($_POST['checkbox5'])){ $rule5 = $_POST['checkbox5'];}else {$rule5 = 0;}
-	 
-//mysqli_query($con,"INSERT INTO `logs` (`cont`, `stat`,`unixtime`) VALUES ('Созданна новая учётная запись.  (".$login.")', '1','".$unixtime."')");
-header("Location: setting.php");	
-
-} ;
  ?>
- 
 <!DOCTYPE html>
 <html>
-	<head>
+	<head>	
 		<?php	 include 'head.php'; ?>
+		<script charset="utf-8" src="./feditor/kindeditor.js"></script>
+		<script charset="utf-8" src="./feditor/ru_Ru.js"></script>
+		<script>
+			KindEditor.ready(function(K) {
+			var editor = K.editor({		allowFileManager : true	});
+			K('#image3').click(function() {	editor.loadPlugin('image', function() {
+			editor.plugin.imageDialog({showRemote : false,imageUrl : K('#imgfon').val(),
+			clickFn : function(url, title, width, height, border, align) {K('#imgfon').val(url);editor.hideDialog();}
+			});});});});
+		</script>
 	</head>
 	
 	<body class="white">
@@ -88,63 +77,34 @@ header("Location: setting.php");
 	   <div  class="s2-content" id="paddi" style="padding-top: 70px;">
 
 				<?php	 include 'topmenu.php'; ?>
-				<?php	 include 'smenu.php'; ?>	
-
-							
+				<?php	 include 'smenu.php'; ?>			
 							
 <div class="s2-map " id="map">
-<div class="right-area -js-right-area Mscroll scroll-pane" style="display: block; padding: 0px;  outline: none;" tabindex="0">
-                
-           
-			
-			<div class="right-area-content -js-right-area-content">
-
+<div class="right-area -js-right-area Mscroll scroll-pane" style="display: block; padding: 0px;  outline: none;">			
+<div class="right-area-content -js-right-area-content">
 <div class="profile row">
    
     <div class="col-md-2">    </div>
-    <div class="mainInfo form-horizontal col-md-6" autocomplete="off">
-	
-	
-		
+    <div class="mainInfo form-horizontal col-md-6">
+
         <h2 style="text-align:center; padding-bottom: 30px;">Настройки профиля</h2>
 		
        	<?php	if($errors!=NULL){ echo '<div class="alert alert-warning">'.$errors.'</div>';} ?>	
 		
-        <div class="section">
-		<script charset="utf-8" src="./feditor/kindeditor.js"></script>
-		<script charset="utf-8" src="./feditor/ru_Ru.js"></script>
-		
-	
-<script>
-KindEditor.ready(function(K) {
-var editor = K.editor({		allowFileManager : true	});
-K('#image3').click(function() {	editor.loadPlugin('image', function() {
-editor.plugin.imageDialog({showRemote : false,imageUrl : K('#imgfon').val(),
-clickFn : function(url, title, width, height, border, align) {K('#imgfon').val(url);editor.hideDialog();}
-});});});});
-</script>
-
 
 <div class="row">
-		<label class="col-sm-3 control-label" style="    margin-top: -8px;">План помещения</label>	
+			<label class="col-sm-3 control-label" style="    margin-top: -8px;">План помещения</label>	
 		<div class="col-sm-9">
-<div class="input-group">
-      <input type="text" id="imgfon" name="imgfon" class="form-control" value="<?php	echo $fonimg; ?>	" /> 
-      <span class="input-group-btn">
-      <button type="button" id="image3" class="btn btn-success" ><i class="icon-download-5"></i></button>
-      </span>
-    </div>
-	  </div>
+				<div class="input-group">
+					  <input type="text" id="imgfon" name="imgfon" class="form-control" value="<?php	echo $fonimg; ?>	" /> 
+					  <span class="input-group-btn"><button type="button" id="image3" class="btn btn-success" ><i class="icon-download-5"></i></button></span>
+				</div>
+		  </div>
 	  </div>	
-			
-			
-			
-			
-			
+
 			<br>
-			
-			
-            <div class="form-group">
+
+<div class="form-group">
                 <label class="col-sm-3 control-label" style="    margin-top: -8px;">Часовой пояс		</label>
                 <div class="col-sm-9">
                    <select name="timezone" id="timezone" style="width:100%" class="form-control">
@@ -189,26 +149,21 @@ clickFn : function(url, title, width, height, border, align) {K('#imgfon').val(u
 		<option <?php if($timezone==46800){echo "selected";}?> title="[UTC + 13] 	 Острова Феникс, Тонга" value="46800">[UTC + 13] Острова Феникс, Тонга</option>
 		<option <?php if($timezone==50400){echo "selected";}?> title="[UTC + 14]	 Остров Лайн" value="50400">[UTC + 14] Остров Лайн</option>
 	</select>               
-           
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-12">
-              
-                <button type="submit" class="btn btn-primary" name="setting"><i class="icon-floppy"></i> Сохранить</button>
-			
-				
-            </div>
-        </div>
-	
-    </div>
-    <div class="contactsContainer col-md-4">
-       
-    </div>
-	
+
+	</div>
 </div>
 
+
+
+<div class="form-group">
+            <div class="col-sm-offset-3 col-sm-12">
+                <button type="submit" class="btn btn-primary" name="setting"><i class="icon-floppy"></i> Сохранить</button>
+            </div>
+</div>
+	
+</div>
+<div class="contactsContainer col-md-4"></div>
+</div>
 
 
  	<hr>
@@ -217,15 +172,7 @@ clickFn : function(url, title, width, height, border, align) {K('#imgfon').val(u
 <div class="profile row">
 <br>
     <h2 style="text-align:center; padding-bottom: 30px;"> Пользователи и права доступа </h2>
-	
-	
-	
     <div class=" form-horizontal col-md-3"> 
- <div class="section">
-           
-		   
-		   
-		<div>		
 
 
 
@@ -242,26 +189,27 @@ clickFn : function(url, title, width, height, border, align) {K('#imgfon').val(u
 
 				
 <div id="checkedit" style="display:none">
-<br>
-<div style="padding-left: 20px;">
-				<div  class="checkbox check-default" >
-                      <input onclick="showHide('passdiv');" id="cbx" name="cbx" type="checkbox" value="1">
-                      <label for="cbx">Сменить пароль</label>
-   
-                  </div>
- </div> </div>
+	<br>
+	<div style="padding-left: 20px;">
+					<div  class="checkbox check-default" >
+						  <input onclick="showHide('passdiv');" id="cbx" name="cbx" type="checkbox" value="1">
+						  <label for="cbx">Сменить пароль</label>
+	   
+					 </div>
+	</div>
+</div>
 			
 
 
-		<div id="passdiv" style="display:block">
+<div id="passdiv" style="display:block">
 
-				<p>Пароль </p>
-				<input id="passwd" name="passwd" type="password" class="form-control" >
-				
-				<p>Повторите Пароль </p>
-				<input id="passwd2" name="passwd2" type="password" class="form-control">
+	<p>Пароль </p>
+	<input id="passwd" name="passwd" type="password" class="form-control" >
+			
+	<p>Повторите Пароль </p>
+	<input id="passwd2" name="passwd2" type="password" class="form-control">
 
-		</div>
+</div>
 				
 				
  
@@ -281,38 +229,24 @@ style.display = "none";
   
 				<br>
 		
-<button type="submit" class="btn btn-sm btn-small btn-primary" name="adduser"><i class="icon-plus"></i> Добавить</button>
+
 <button type="submit" disabled="disabled" class="btn btn-sm btn-small btn-primary" name="edituser" id="edituser"  value="" ><i class="icon-edit"></i> Изменить</button>
 <button type="button" disabled="disabled" onclick="clin()"  class="btn btn-sm btn-small btn-white" name="clinss" id="clinss" value="" >Очистить</button>
-
-		   
-		   
-							 </div>	 
-
-		   		   
-		   
-   
-		   
-		   
-		   
-		   
-		   
-        </div>
+     
 	</div>
 	
 	
 
 
 	
-    <div class="mainInfo form-horizontal col-md-9" autocomplete="off">
+<div class="mainInfo form-horizontal col-md-9" autocomplete="off">
       
-       <button id="del" disabled="disabled" onclick="return confirm('Вы действительно хотите удалить псевдонимы устройств?')" type="submit" class="btn btn-sm btn-small btn-danger"  name="deluser" title="Удалить записи"><i class=" icon-trash"></i> Удалить выделенные записи</button>  
-  	<div class="col-xs-12"><div id="example2_filter" class="dataTables_filter"><label>Поиск: <input type="text" name="search" class="form-control input-sm" value="<?php if(isset($_POST['search'])){echo $_POST['search'];} ?>" ></label></div></div>
-	
-	<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;    position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
+<button id="del" disabled="disabled" onclick="return confirm('Вы действительно хотите удалить псевдонимы устройств?')" type="submit" class="btn btn-sm btn-small btn-danger"  name="deluser" title="Удалить записи"><i class=" icon-trash"></i> Удалить выделенные записи</button>  
+<div class="col-xs-12"><div id="example2_filter" class="dataTables_filter"><label>Поиск: <input type="text" name="search" class="form-control input-sm" value="<?php if(isset($_POST['search'])){echo $_POST['search'];} ?>" ></label></div></div>
+<button type="submit" class="btn btn-danger btn-sm btn-small"  name="find" style="background-color: #3F9635;  border-color: #548347;    position: absolute;  margin: -35px 0px 0px 182px;"><i class="icon-search-4"></i> Поиск</button> 
 	
     
-		        <section id="settings-notifications">
+<section id="settings-notifications">
 			   <table id="example2" class="example table table-striped table-bordered" cellspacing="0">
                                         <thead>
                                             <tr>
@@ -322,7 +256,7 @@ style.display = "none";
                                             </tr>
                                         </thead>
                                         <tbody>
-<?
+<?php	
 //if($G_id_user==1){$IDDN = mysqli_query($con,"SELECT * FROM users ORDER BY id_user DESC");}
 //			else {$IDDN = mysqli_query($con,"SELECT * FROM users WHERE id_user = '$G_id_user' ORDER BY id_user DESC");}
 //if($IDDN) { while($mIDDN= mysqli_fetch_assoc($IDDN)) {
@@ -339,62 +273,41 @@ $r = $_PAGING->get_page( "SELECT * FROM users WHERE (login_user LIKE '%$search%'
 ?>
 			
 <tr>
-
 <td>
-<?php	if($mIDDN['id_user']==$G_id_user OR $G_id_user==1){ ?>
-<input onchange="document.getElementById('del').disabled = false;" id="chbox<?php	echo $mIDDN['id_user']; ?>" type="checkbox"  name='box[]' value=<?php	echo $mIDDN['id_user']; ?>>
-<?php	} else {echo "<i class='icon-lock-4 lock-tab'></i>";} ?>
+	<?php	if($mIDDN['id_user']==$G_id_user OR $G_id_user==1){ ?>
+	<input onchange="document.getElementById('del').disabled = false;" id="chbox<?php	echo $mIDDN['id_user']; ?>" type="checkbox"  name='box[]' value=<?php	echo $mIDDN['id_user']; ?>>
+	<?php	} else {echo "<i class='icon-lock-4 lock-tab'></i>";} ?>
 </td>		
+
 <td onclick="getText<?php echo $mIDDN['id_user'];?>()" style="cursor: pointer;"><?php	echo $mIDDN['login_user']; ?></td>									
 												
-											 <td onclick="getText<?php echo $mIDDN['id_user'];?>()" style="cursor: pointer;">
-											 <?php	echo "E-mail: ".$mIDDN['mail_user']."<br>"; ?>
-											  <?php	echo "Часовой пояс: UTC +".($mIDDN['timezone']/3600)."<br>"; ?>
-											   <?php	echo "Изображение: ".$mIDDN['img']."<br>"; ?>
-											 </td>
+<td onclick="getText<?php echo $mIDDN['id_user'];?>()" style="cursor: pointer;">
+	<?php	echo "E-mail: ".$mIDDN['mail_user']."<br>"; ?>
+	<?php	echo "Часовой пояс: UTC +".($mIDDN['timezone']/3600)."<br>"; ?>
+	<?php	echo "Изображение: ".$mIDDN['img']."<br>"; ?>
+</td>
 											  
 											  			  
 <script type="text/javascript">
 function getText<?php echo $mIDDN['id_user'];?>(el){
 
-
-document.getElementById('checkedit').style.display = 'block';
-document.getElementById('passdiv').style.display = 'none';
-
-
-
+	document.getElementById('checkedit').style.display = 'block';
+	document.getElementById('passdiv').style.display = 'none';
 
 	<?php	if($mIDDN['id_user']==$G_id_user OR $G_id_user==1){ ?>
-document.getElementById('edituser').disabled = false;
-document.getElementById('clinss').disabled = false;
+		document.getElementById('edituser').disabled = false;
+		document.getElementById('clinss').disabled = false;
 	<?php	} else {?>
-	document.myForm.edit.disabled = true;
-	document.myForm.clinss.disabled = true;
+		document.myForm.edit.disabled = true;
+		document.myForm.clinss.disabled = true;
 	<?php	}?>
 
 	document.getElementById('id_user').value = '<?php	echo $mIDDN['id_user']; ?>';
 	document.getElementById('login').value = '<?php	echo $mIDDN['login_user']; ?>';
 	document.getElementById('mail').value = '<?php	echo $mIDDN['mail_user']; ?>';
-	
-		
-	
-
 }
-
-function clin(){
-	document.myForm.edit.disabled = true;
-	document.myForm.clinss.disabled = true;
-
-	document.getElementById('id_user').value = '';
-	document.getElementById('login').value = '';
-	document.getElementById('mail').value = '';
-	
-
-
-}
-	</script>
-											  
-                                            </tr>
+</script>									  
+</tr>
 											
 <?php  }	?>													
 		  </tbody>
@@ -417,13 +330,23 @@ function clin(){
 </div>
 </div>
 </div>
-				</div>
-				
-		</div>
+</div>
+		
+</div>
 
 	</form>
 	</body>
 </html>
+
+<script type="text/javascript">
+function clin(){
+	document.myForm.edit.disabled = true;
+	document.myForm.clinss.disabled = true;
+	document.getElementById('id_user').value = '';
+	document.getElementById('login').value = '';
+	document.getElementById('mail').value = '';
+}
+</script>
 
 <script>
 window.onload=function(){

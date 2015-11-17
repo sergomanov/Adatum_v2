@@ -115,22 +115,22 @@
 <?php 
 $resulte = mysqli_query($con,"SELECT * FROM namedev WHERE id_user = '$G_id_user'");	while($rowe = mysqli_fetch_assoc($resulte)) { $address= $rowe['address'];$S_unixtime=$rowe['unixtime'];
 $timereal=time(); 
-if($S_unixtime==0||($S_unixtime!=0&&$timereal-$S_unixtime>600)){$onlin=0;} else {$onlin=1;}
+if($S_unixtime==0||($S_unixtime!=0&&$timereal-$S_unixtime>1300)){$onlin=0;} else {$onlin=1;}
 ?> 
 
-<div  class="menu-item ">
+<div  class="menu-item " >
 	
 	
 <div id="topmenu<?php	echo $rowe['id']; ?>" onclick="Sdiv('menu<?php	echo $rowe['id']; ?>','topmenu<?php	echo $rowe['id']; ?>','icond<?php	echo $rowe['id']; ?>');" class="menu-item-link  cleafix">
 	<div class="menu-item-title-container">
 	<i id="icond<?php	echo $rowe['id']; ?>" style=" font-size: 20px;	<?php if($onlin==0) {echo "color: #A09B9B;";} else { echo "color: #00aeef;";}?>
-		padding: -40px;margin: 17px 0px 0px 1px;position: absolute;" class="icon-plus"></i>
-		<div class="menu-title">
+		padding: -40px;margin: 6px 0px 0px 6px;position: absolute;" class="icon-plus"></i>
+		<div class="menu-title" style="padding: 3px 0;">
 		<div style="<?php if($onlin==0) {echo "color: #A09B9B;";} else { echo "color: #00aeef;";}?>"><?php	echo $rowe['name']; ?></div>
 			<span style="font-size: 12px;">
 				<?php	
-				if($timereal-$S_unixtime<600){ echo "устройство в сети";}
-				if($S_unixtime!=0&&$timereal-$S_unixtime>600) {echo "нет связи с ". date("d.m.Y, H:m", $S_unixtime+$timezone);}
+				if($timereal-$S_unixtime<1300){ echo "устройство в сети";}
+				if($S_unixtime!=0&&$timereal-$S_unixtime>1300) {echo "нет связи с ". date("d.m.Y, H:m", $S_unixtime+$timezone);}
 				if($S_unixtime==0){ echo "недоступно в сети";}
 				//	echo 	$timereal-$S_unixtime;
 				//if($timereal-$S_unixtime>360){ echo "Устройство в сети.";} 
@@ -147,7 +147,7 @@ if($S_unixtime==0||($S_unixtime!=0&&$timereal-$S_unixtime>600)){$onlin=0;} else 
 
 <div class="menu-item-tabs-content" id="buttonpanel<?php	echo $rowe['id']; ?>">
 
-											
+	<!-- 									
 <?php 
 $resulte6 = mysqli_query($con,"SELECT * FROM commands WHERE address='$address'");	
 while($rowe6 = mysqli_fetch_assoc($resulte6)) {
@@ -175,12 +175,12 @@ text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bo
 							
 <?php } ?>  	
 	
-	
+	 -->	
 	
 <div style="width: 25%;font-size: 1px;"><span class="">-</span> </div>		
 	
 
-	
+
 	
 	<?php 
 		
@@ -188,11 +188,12 @@ text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bo
 				   while($rowe4 = mysqli_fetch_assoc($resulte4)) {
 				   $mode4=$rowe4['mode'];
 				   
-				
+			//	echo $mode4;
 						
 					$resulte48 = mysqli_query($con,"SELECT * FROM developments WHERE address='$address' AND mode='$mode4' ORDER BY id DESC LIMIT 1");	
 				    while($rowe48 = mysqli_fetch_assoc($resulte48)) {$L_valus_z = $rowe48['vale'];}
 				   
+				  // echo $L_valus_z;
 				   
 				      if ($result=mysqli_query($con,"SELECT * FROM developments WHERE mode='$mode4' AND address='$address'"))  {  $rowcount=mysqli_num_rows($result);  }
 				   
@@ -201,7 +202,7 @@ text-align: center;width: 25%;margin: 0px;border-left: 2px solid white;border-bo
 				   $resulte5 = mysqli_query($con,"SELECT * FROM type WHERE mode='$mode4'");	
 				   while($rowe5 = mysqli_fetch_assoc($resulte5)) {  $ico5=$rowe5['ico'];    $color5=$rowe5['color'];    $symbol5=$rowe5['symbol'];    $type5=$rowe5['type'];	   $namevalue1_5=$rowe5['namevalue1'];	   }
 				  
-				  if($type5==1 AND $rowcount>5){
+				  if($type5==1 AND $rowcount>2){		// Количество данных чтобы отрисовать данные
 
 
 			?> 
@@ -229,6 +230,7 @@ $datetimeout=time();
 
 if ($resultr=mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout'"))  {  $rowcountt=mysqli_num_rows($resultr);  }
 $res9 = mysqli_query($con,"SELECT * FROM `developments` WHERE mode = '$mode4' AND address = '$address'  AND unixtime >='$datetimein' AND unixtime <='$datetimeout' "); 
+
 
 if($rowcountt<240){
 if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
@@ -264,13 +266,8 @@ if($res9){ 	while($row9 = mysqli_fetch_assoc($res9)){
  window.onresize = function(event) { $.plot($("#placeholder<?php	echo $rowe['id']; ?>"), [ d2 ],options);  }
  
  
-
-
-
 //document.getElementById('nedel<?php	echo $rowe['id']; ?>').innerHTML=' за неделю  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $zna_min; ?></gcol>/<scol><?php	echo $zna_sr; ?></scol>/<rcol><?php	echo $zna_max."</rcol> ".$symbol5; ?>';
- 
 //document.getElementById('mes<?php	echo $rowe['id']; ?>').innerHTML=' за месяц  <gcol>мин</gcol>/<scol>сред </scol>/<rcol>макс</rcol>: <gcol><?php	echo $znam_min; ?></gcol>/<scol><?php	echo $znam_sr; ?></scol>/<rcol><?php	echo $znam_max."</rcol> ".$symbol5; ?>';
- 
 //document.getElementById('god<?php	echo $rowe['id']; ?>').innerHTML=' за год  <gcol>мин</gcol>/<scol>сред</scol>/<rcol>макс</rcol>: <gcol><?php	echo $znag_min; ?></gcol>/<scol><?php	echo $znag_sr; ?></scol>/<rcol><?php	echo $znag_max."</rcol> ".$symbol5; ?>';
  
  };

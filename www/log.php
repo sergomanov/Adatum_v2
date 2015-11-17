@@ -55,7 +55,7 @@
 					<td>
 					<?php	echo "Тип: ".$row['mode']."<br>"; ?>
 					<?php	echo $row['address'].": "; ?>
-					<gcol><?php	$rtype = mysqli_query($con,"SELECT * FROM namedev WHERE address='$M_address' "); while($rowr = mysqli_fetch_assoc($rtype)) {echo ": ".$rowr['name'];} ?></gcol><br>
+					<gcol><?php	$rtype = mysqli_query($con,"SELECT * FROM namedev WHERE address='$M_address' AND id_user = '$G_id_user' "); while($rowr = mysqli_fetch_assoc($rtype)) {echo ": ".$rowr['name'];} ?></gcol><br>
 					<?php	echo "Значение: ".$row['vale']; ?>
 					</td>
 

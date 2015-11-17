@@ -81,10 +81,10 @@ if ($auth->check()) {
      border: 1px solid #00aeef;  font-size: 14px;border-radius: 1px;  box-shadow: none;  color: #fff;  cursor: pointer;  ">Восстановление</div>
 	 </div>
 		 <div class="form-input form-input-login">
-		 <input type="text" name="login" value="demo" />
+		 <input type="text" name="login"  />
 		                </div>
 						 <div class="form-input form-input-pass">
-		 <input type="password" name="passwd" value="demo" id="" />
+		 <input type="password" name="passwd"  id="" />
 		 <input type="submit" value="Войти →" name="send" style="  font-size: 13px;"/>
 		 </div>
 		  <div class="form-input form-input-checkbox"><input type="checkbox" name="remember" value="on" id="saveme"> <label for="saveme">Запомнить меня</label></div>

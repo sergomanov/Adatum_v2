@@ -342,7 +342,7 @@ mysqli_free_result($res58); }
 
 
 //---------------------------------- Команда ONLINE ---------------------------------------------------------   
-$time_period=time()-600;       
+$time_period=time()-1300;       
 $unixtime=time();                                           
 $res_W = mysqli_query($con,"SELECT * FROM `namedev` WHERE unixtime < '$time_period' AND unixtime!=0 AND state!=0");
 if($res_W) {   while($row_W = mysqli_fetch_assoc($res_W)) 
